@@ -1,6 +1,8 @@
 package com.bridgetrack.bridgetrack.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -111,6 +113,32 @@ public class StudentCoursePlannerPageController {
 
         Map<Long, String> courseAvailability = plannedCourseService.getCourseAvailabilityLabels(courses);
 
+        // Build simplified JSON-safe lists for the client-side planner grid
+        List<Map<String, Object>> plannerCoursesJson = new ArrayList<>();
+        for (Course c : courses) {
+            Map<String, Object> m = new LinkedHashMap<>();
+            m.put("courseId", c.getCourseId());
+            m.put("courseCode", c.getCourseCode());
+            m.put("courseName", c.getCourseName());
+            m.put("modality", c.getModality());
+            m.put("programName", c.getProgram() != null ? c.getProgram().getProgramName() : null);
+            m.put("programId", c.getProgram() != null ? c.getProgram().getProgramId() : null);
+            m.put("requiresPrereq", c.isRequiresPrereq());
+            plannerCoursesJson.add(m);
+        }
+
+        List<Map<String, Object>> plannerPlannedJson = new ArrayList<>();
+        for (PlannedCourse pc : plannedCourses) {
+            Map<String, Object> m = new LinkedHashMap<>();
+            m.put("plannedCourseId", pc.getPlannedCourseId());
+            m.put("courseId", pc.getCourse() != null ? pc.getCourse().getCourseId() : null);
+            m.put("courseCode", pc.getCourse() != null ? pc.getCourse().getCourseCode() : null);
+            m.put("courseName", pc.getCourse() != null ? pc.getCourse().getCourseName() : null);
+            m.put("semesterLabel", pc.getSemesterLabel());
+            m.put("termNumber", pc.getTermNumber());
+            plannerPlannedJson.add(m);
+        }
+
         model.addAttribute("programs", programRepository.findAll());
         model.addAttribute("courses", courses);
         model.addAttribute("plannedCourses", plannedCourses);
@@ -125,6 +153,9 @@ public class StudentCoursePlannerPageController {
         model.addAttribute("selectedStartingSemester", startingSemester);
         model.addAttribute("selectedSemesterCount", semesterCount);
         model.addAttribute("activeTab", activeTab);
+
+        model.addAttribute("plannerCoursesJson", plannerCoursesJson);
+        model.addAttribute("plannerPlannedJson", plannerPlannedJson);
 
         return "course-planner";
     }
@@ -148,9 +179,7 @@ public class StudentCoursePlannerPageController {
         try {
             plannedCourseService.addCourseToPlan(studentId, courseId, semesterLabel, termNumber);
             redirectAttributes.addFlashAttribute("successMessage", "Course added to plan.");
-
-            // NEW: go straight to section selection after successful add
-            return "redirect:/student/course-planner/sections";
+            return buildPlannerRedirectUrl(programId, modality, planStatus, prereqStatus, startingSemester, semesterCount, "planner");
 
         } catch (RuntimeException ex) {
             redirectAttributes.addFlashAttribute("errorMessage", ex.getMessage());
