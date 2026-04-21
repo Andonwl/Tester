@@ -463,12 +463,254 @@
             font-size: 13px;
         }
 
+        /* Planner grid controls */
+        .planner-grid-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .planner-grid-header h3 { margin: 0; color: #17395c; }
+
+        .planner-controls-row {
+            display: flex;
+            align-items: flex-end;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .counter-controls {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            padding: 4px 8px;
+            background: #fff;
+        }
+
+        .counter-btn {
+            background: #17395c;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            width: 28px;
+            height: 28px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: Arial, Helvetica, sans-serif;
+            line-height: 1;
+            padding: 0;
+        }
+
+        .counter-btn:hover { background: #132f4c; }
+
+        .sem-counter {
+            font-size: 16px;
+            font-weight: bold;
+            color: #17395c;
+            min-width: 24px;
+            text-align: center;
+        }
+
+        /* Plan layout */
+        .plan-layout {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .semester-block {
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+        }
+
+        .semester-header {
+            background-color: #17395c;
+            color: #fff;
+            padding: 12px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .semester-header h4 {
+            margin: 0;
+            font-size: 15px;
+            font-weight: bold;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .sem-count { font-size: 12px; color: #a8c4dc; }
+
+        .terms-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            background: #fff;
+        }
+
+        .term-col {
+            padding: 14px 18px;
+            border-right: 1px solid #e4eaf2;
+            min-height: 110px;
+        }
+
+        .term-col:last-child { border-right: none; }
+
+        .term-col-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #dfe7f2;
+        }
+
+        .term-col-title {
+            font-size: 13px;
+            font-weight: bold;
+            color: #17395c;
+            display: flex;
+            align-items: center;
+            gap: 7px;
+        }
+
+        .term-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            display: inline-block;
+            flex-shrink: 0;
+        }
+
+        .dot-t1 { background: #0c6ea3; }
+        .dot-t2 { background: #27ae60; }
+
+        .planned-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #f5f7fa;
+            border: 1px solid #dde3ec;
+            border-radius: 5px;
+            padding: 7px 10px;
+            margin-bottom: 6px;
+            gap: 8px;
+        }
+
+        .planned-item-info { flex: 1; }
+
+        .planned-item-code {
+            font-size: 11px;
+            font-weight: bold;
+            color: #17395c;
+        }
+
+        .planned-item-name { font-size: 12px; color: #555; }
+
+        .remove-btn {
+            background: none;
+            border: none;
+            color: #b22222;
+            cursor: pointer;
+            font-size: 18px;
+            line-height: 1;
+            padding: 1px 5px;
+            border-radius: 3px;
+            flex-shrink: 0;
+        }
+
+        .remove-btn:hover { background: #fce4e4; }
+
+        .empty-term {
+            font-size: 12px;
+            color: #bbb;
+            font-style: italic;
+            text-align: center;
+            padding: 14px 0 4px;
+        }
+
+        .add-context-banner {
+            display: none;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            background: #dfe7f2;
+            border: 1px solid #b0c4de;
+            border-radius: 8px;
+            padding: 10px 16px;
+            margin-bottom: 14px;
+            font-size: 13px;
+            font-weight: bold;
+            color: #17395c;
+        }
+
+        .term-picker {
+            flex: 1;
+            height: 34px;
+            padding: 0 8px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 12px;
+            font-family: Arial, Helvetica, sans-serif;
+            min-width: 160px;
+        }
+
+        .term-add-row {
+            display: flex;
+            gap: 6px;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-top: 4px;
+        }
+
+        /* Toast notifications */
+        .toast-container {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .toast {
+            background: #17395c;
+            color: #fff;
+            padding: 10px 18px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-family: Arial, Helvetica, sans-serif;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.2);
+            animation: toastIn 0.2s ease;
+            max-width: 300px;
+        }
+
+        .toast.success { background: #1a7a40; }
+        .toast.error   { background: #b22222; }
+
+        @keyframes toastIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
         @media (max-width: 980px) {
             body { flex-direction: column; }
             .student-sidebar { width: 100%; }
         }
 
         @media (max-width: 640px) {
+            .terms-row { grid-template-columns: 1fr; }
+            .term-col { border-right: none; border-bottom: 1px solid #e4eaf2; }
             .stats-row { grid-template-columns: 1fr 1fr; }
             .btn,
             .btn-secondary,
@@ -604,17 +846,50 @@
         </div>
 
         <div id="tab-planner" class="tab-panel">
-            <div class="card info-card">
-                <h3>How Planning Works</h3>
-                <p>
-                    Build your plan from the available courses below. Each course card shows prerequisites, term availability, and whether the course is already in your plan or already enrolled.
-                </p>
+
+            <!-- Planner Grid Card -->
+            <div class="card" id="plannerGridCard">
+                <div class="planner-grid-header">
+                    <h3>📅 My Planner</h3>
+                    <div class="planner-controls-row">
+                        <div>
+                            <label for="planStartSemester" style="font-size:13px;font-weight:bold;color:#333;margin-bottom:6px;display:block;">Starting Semester</label>
+                            <select id="planStartSemester" style="height:36px;padding:0 10px;border:1px solid #ccc;border-radius:6px;font-size:13px;font-family:Arial,Helvetica,sans-serif;">
+                                <option value="Fall 2025">Fall 2025</option>
+                                <option value="Spring 2026">Spring 2026</option>
+                                <option value="Fall 2026">Fall 2026</option>
+                                <option value="Spring 2027">Spring 2027</option>
+                                <option value="Fall 2027">Fall 2027</option>
+                                <option value="Spring 2028">Spring 2028</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label style="font-size:13px;font-weight:bold;color:#333;margin-bottom:6px;display:block;">Semesters to Plan</label>
+                            <div class="counter-controls">
+                                <button class="counter-btn" id="decrementSemBtn" type="button" title="Fewer semesters">&#8722;</button>
+                                <span class="sem-counter" id="semCounterDisplay">4</span>
+                                <button class="counter-btn" id="incrementSemBtn" type="button" title="More semesters">&#43;</button>
+                            </div>
+                        </div>
+                        <div style="align-self:flex-end;">
+                            <button class="btn-secondary btn-sm" id="clearPlanBtn" type="button">Clear Plan</button>
+                        </div>
+                    </div>
+                </div>
+                <div id="planLayout" class="plan-layout"></div>
             </div>
 
+            <!-- Context banner shown when user clicks "+ Add Course" on a term -->
+            <div id="addContextBanner" class="add-context-banner">
+                <span id="addContextText">Adding course to: </span>
+                <button class="btn-secondary btn-sm" id="cancelContextBtn" type="button">✕ Cancel</button>
+            </div>
+
+            <!-- Available Courses -->
             <div class="card" id="availableCoursesSection">
                 <div class="catalog-header">
                     <h3>Available Courses</h3>
-                    <span class="text-muted">Courses, prerequisites, availability, and plan status all in one place.</span>
+                    <span class="text-muted">Select a term above, then click "Add to Plan" on a course below.</span>
                 </div>
 
                 <div class="catalog-grid">
@@ -654,11 +929,12 @@
                             Prerequisites satisfied
                         </div>
 
-                        <div style="margin-top:4px;">
+                        <!-- Add-to-plan form with dynamic term picker -->
+                        <div th:if="${#lists.size(scheduledCourses.?[course != null and course.courseId == __${course.courseId}__]) == 0}">
                             <form th:action="@{/student/course-planner/add}" method="post" class="catalog-add-form">
                                 <input type="hidden" name="courseId" th:value="${course.courseId}">
-                                <input type="hidden" name="semesterLabel" th:value="${selectedStartingSemester != null ? selectedStartingSemester : 'Spring 2026'}">
-                                <input type="hidden" name="termNumber" value="1">
+                                <input type="hidden" class="f-semester-label" name="semesterLabel" value="">
+                                <input type="hidden" class="f-term-number" name="termNumber" value="">
                                 <input type="hidden" name="startingSemester" th:value="${selectedStartingSemester != null ? selectedStartingSemester : 'Spring 2026'}">
                                 <input type="hidden" name="semesterCount" th:value="${selectedSemesterCount != null ? selectedSemesterCount : 4}">
                                 <input type="hidden" name="activeTab" value="planner">
@@ -666,11 +942,15 @@
                                 <input type="hidden" name="modality" th:value="${selectedModality != null ? selectedModality : 'ALL'}">
                                 <input type="hidden" name="planStatus" th:value="${selectedPlanStatus != null ? selectedPlanStatus : 'ALL'}">
                                 <input type="hidden" name="prereqStatus" th:value="${selectedPrereqStatus != null ? selectedPrereqStatus : 'ALL'}">
-                                <button type="submit"
-                                        class="btn btn-sm"
-                                        th:disabled="${(missingPrereqs[course.courseId] != null and !missingPrereqs[course.courseId].isEmpty()) or #lists.size(scheduledCourses.?[course != null and course.courseId == __${course.courseId}__]) > 0}">
-                                    Add to Plan
-                                </button>
+                                <div class="term-add-row">
+                                    <select class="term-picker">
+                                        <option value="">— Select a term —</option>
+                                    </select>
+                                    <button type="submit" class="btn btn-sm"
+                                            th:disabled="${missingPrereqs[course.courseId] != null and !missingPrereqs[course.courseId].isEmpty()}">
+                                        Add to Plan
+                                    </button>
+                                </div>
                             </form>
                         </div>
                     </div>
@@ -683,19 +963,411 @@
         </div>
     </div>
 
-    <script>
-        function switchTab(id, btn) {
-            document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-            document.getElementById('tab-' + id).classList.add('active');
-            if (btn) {
-                btn.classList.add('active');
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script th:inline="javascript">
+    /*<![CDATA[*/
+
+    // Data from server
+    const SERVER_PLANNED = /*[[${plannerPlannedJson}]]*/ [];
+    const SERVER_START_SEMESTER = /*[[${selectedStartingSemester}]]*/ 'Spring 2026';
+    const SERVER_SEMESTER_COUNT = /*[[${selectedSemesterCount}]]*/ 4;
+
+    // Semester count limits
+    const MIN_SEMESTER_COUNT = 1;
+    const MAX_SEMESTER_COUNT = 8;
+
+    // Plan state: { "Spring 2026": [ [{courseId, plannedCourseId, code, name}, ...], [...] ], ... }
+    let plan = {};
+    let planConfig = { startSemester: 'Spring 2026', semesterCount: 4 };
+    let addContext  = { semKey: null, termIdx: null, label: null };
+
+    // ── Init ──────────────────────────────────────────────────────────────────
+
+    function initPlanner() {
+        // Load config from localStorage (fallback to server values)
+        try {
+            const stored = localStorage.getItem('bt_planConfig');
+            if (stored) {
+                planConfig = { ...planConfig, ...JSON.parse(stored) };
+            } else {
+                planConfig.startSemester = SERVER_START_SEMESTER;
+                planConfig.semesterCount = SERVER_SEMESTER_COUNT;
             }
+        } catch (e) {
+            planConfig.startSemester = SERVER_START_SEMESTER;
+            planConfig.semesterCount = SERVER_SEMESTER_COUNT;
         }
 
-        window.addEventListener('DOMContentLoaded', function () {
-            switchTab('planner', document.getElementById('plannerTabButton'));
+        // Build plan from server data
+        plan = {};
+        SERVER_PLANNED.forEach(pc => {
+            const key = pc.semesterLabel || '';
+            const termIdx = Math.max(0, (pc.termNumber || 1) - 1);
+            if (!plan[key]) plan[key] = [[], []];
+            const idx = Math.min(termIdx, 1);
+            plan[key][idx].push({
+                courseId: pc.courseId,
+                plannedCourseId: pc.plannedCourseId,
+                code: pc.courseCode || '',
+                name: pc.courseName || ''
+            });
         });
+
+        // Sync UI controls
+        const startSel = document.getElementById('planStartSemester');
+        if (startSel) startSel.value = planConfig.startSemester;
+        const counter = document.getElementById('semCounterDisplay');
+        if (counter) counter.textContent = planConfig.semesterCount;
+
+        renderPlanLayout();
+        updateSectionSelectionButton();
+    }
+
+    function savePlanConfig() {
+        try { localStorage.setItem('bt_planConfig', JSON.stringify(planConfig)); } catch (e) {}
+    }
+
+    // ── Semester helpers ──────────────────────────────────────────────────────
+
+    function generateSemesters(start, count) {
+        const sems = [];
+        let parts = (start || 'Spring 2026').split(' ');
+        let season = parts[0];
+        let year   = parseInt(parts[1]) || new Date().getFullYear();
+        for (let i = 0; i < count; i++) {
+            sems.push({ label: season + ' ' + year, season, year });
+            season = (season === 'Spring') ? 'Fall' : 'Spring';
+            if (season === 'Spring') year++;
+        }
+        return sems;
+    }
+
+    function termLabels(season) {
+        return season === 'Fall'
+            ? ['Fall Term 1',   'Fall Term 2']
+            : ['Spring Term 1', 'Spring Term 2'];
+    }
+
+    // ── Render ────────────────────────────────────────────────────────────────
+
+    function renderPlanLayout() {
+        const container = document.getElementById('planLayout');
+        if (!container) return;
+        container.innerHTML = '';
+
+        generateSemesters(planConfig.startSemester, planConfig.semesterCount).forEach(sem => {
+            const key = sem.label;
+            if (!plan[key]) plan[key] = [[], []];
+            const [t1, t2] = termLabels(sem.season);
+            const total = countInSem(key);
+
+            const block = document.createElement('div');
+            block.className = 'semester-block';
+            block.innerHTML =
+                '<div class="semester-header">' +
+                    '<h4>' + escHtml(sem.label) + '</h4>' +
+                    '<span class="sem-count">' + total + ' course' + (total !== 1 ? 's' : '') + ' planned</span>' +
+                '</div>' +
+                '<div class="terms-row">' +
+                    buildTermCol(key, 0, t1, 'dot-t1') +
+                    buildTermCol(key, 1, t2, 'dot-t2') +
+                '</div>';
+            container.appendChild(block);
+        });
+
+        populateTermPickers();
+    }
+
+    function buildTermCol(semKey, termIdx, label, dotClass) {
+        const courses = (plan[semKey] && plan[semKey][termIdx]) ? plan[semKey][termIdx] : [];
+
+        const items = courses.map(function(item) {
+            return '<div class="planned-item">' +
+                '<div class="planned-item-info">' +
+                    '<div class="planned-item-code">' + escHtml(item.code) + '</div>' +
+                    '<div class="planned-item-name">' + escHtml(item.name) + '</div>' +
+                '</div>' +
+                '<form method="post" action="/student/course-planner/remove" style="display:inline;margin:0;">' +
+                    '<input type="hidden" name="plannedCourseId" value="' + item.plannedCourseId + '">' +
+                    '<input type="hidden" name="activeTab" value="planner">' +
+                    '<button type="submit" class="remove-btn" title="Remove this course"' +
+                        ' data-course-code="' + escHtmlAttr(item.code) + '">' +
+                        '&#215;</button>' +
+                '</form>' +
+            '</div>';
+        }).join('');
+
+        const empty = courses.length === 0
+            ? '<div class="empty-term">No courses added yet</div>' : '';
+
+        return '<div class="term-col">' +
+            '<div class="term-col-header">' +
+                '<span class="term-col-title">' +
+                    '<span class="term-dot ' + dotClass + '"></span>' + escHtml(label) +
+                '</span>' +
+                '<button class="btn btn-sm add-course-btn" type="button"' +
+                    ' data-sem-key="' + escHtmlAttr(semKey) + '"' +
+                    ' data-term-idx="' + termIdx + '"' +
+                    ' data-label="' + escHtmlAttr(label) + '">' +
+                    '+ Add Course</button>' +
+            '</div>' +
+            items + empty +
+        '</div>';
+    }
+
+    function countInSem(semKey) {
+        if (!plan[semKey]) return 0;
+        return (plan[semKey][0] ? plan[semKey][0].length : 0) +
+               (plan[semKey][1] ? plan[semKey][1].length : 0);
+    }
+
+    function escHtml(str) {
+        return String(str)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;');
+    }
+
+    function escHtmlAttr(str) {
+        return String(str)
+            .replace(/&/g, '&amp;')
+            .replace(/"/g, '&quot;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;');
+    }
+
+    // ── Term picker (in catalog cards) ───────────────────────────────────────
+
+    function populateTermPickers() {
+        const sems    = generateSemesters(planConfig.startSemester, planConfig.semesterCount);
+        const options = [];
+        sems.forEach(function(sem) {
+            const [t1, t2] = termLabels(sem.season);
+            options.push({ value: sem.label + '|1', label: sem.label + ' — ' + t1 });
+            options.push({ value: sem.label + '|2', label: sem.label + ' — ' + t2 });
+        });
+
+        document.querySelectorAll('.term-picker').forEach(function(sel) {
+            const prev = sel.value;
+            sel.innerHTML = '';
+
+            const placeholder = document.createElement('option');
+            placeholder.value = '';
+            placeholder.textContent = '— Select a term —';
+            sel.appendChild(placeholder);
+
+            options.forEach(function(opt) {
+                const o = document.createElement('option');
+                o.value = opt.value;
+                o.textContent = opt.label;
+                // Pre-select context if set
+                if (addContext.semKey &&
+                        opt.value === (addContext.semKey + '|' + (addContext.termIdx + 1))) {
+                    o.selected = true;
+                } else if (prev === opt.value) {
+                    o.selected = true;
+                }
+                sel.appendChild(o);
+            });
+        });
+    }
+
+    // ── Add context ───────────────────────────────────────────────────────────
+
+    function setAddContext(semKey, termIdx, label) {
+        addContext = { semKey, termIdx, label };
+        const banner = document.getElementById('addContextBanner');
+        const text   = document.getElementById('addContextText');
+        if (banner) banner.style.display = 'flex';
+        if (text)   text.textContent = 'Adding course to: ' + semKey + ' — ' + label;
+        populateTermPickers();
+        const section = document.getElementById('availableCoursesSection');
+        if (section) section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        showToast('Select a course below to add it to ' + semKey + ' — ' + label + '.', 'success');
+    }
+
+    function clearAddContext() {
+        addContext = { semKey: null, termIdx: null, label: null };
+        const banner = document.getElementById('addContextBanner');
+        if (banner) banner.style.display = 'none';
+        populateTermPickers();
+    }
+
+    // ── Form submit handler ───────────────────────────────────────────────────
+
+    function onAddFormSubmit(event, form) {
+        const picker   = form.querySelector('.term-picker');
+        const semLabel = form.querySelector('.f-semester-label');
+        const termNum  = form.querySelector('.f-term-number');
+
+        if (!picker || !picker.value) {
+            showToast('Please select a term before adding the course.', 'error');
+            return false;
+        }
+
+        const parts = picker.value.split('|');
+        if (parts.length !== 2 || !parts[0] || !parts[1]) {
+            showToast('Invalid term selection. Please try again.', 'error');
+            return false;
+        }
+
+        if (semLabel) semLabel.value = parts[0];
+        if (termNum)  termNum.value  = parts[1];
+        return true;
+    }
+
+    // ── Semester count controls ───────────────────────────────────────────────
+
+    function incrementSemesterCount() {
+        if (planConfig.semesterCount < MAX_SEMESTER_COUNT) {
+            planConfig.semesterCount++;
+            const c = document.getElementById('semCounterDisplay');
+            if (c) c.textContent = planConfig.semesterCount;
+            savePlanConfig();
+            renderPlanLayout();
+        }
+    }
+
+    function decrementSemesterCount() {
+        if (planConfig.semesterCount > MIN_SEMESTER_COUNT) {
+            planConfig.semesterCount--;
+            const c = document.getElementById('semCounterDisplay');
+            if (c) c.textContent = planConfig.semesterCount;
+            savePlanConfig();
+            renderPlanLayout();
+        }
+    }
+
+    function onPlanStartSemesterChange() {
+        const sel = document.getElementById('planStartSemester');
+        if (sel) planConfig.startSemester = sel.value;
+        savePlanConfig();
+        renderPlanLayout();
+    }
+
+    // ── Clear plan ────────────────────────────────────────────────────────────
+
+    function clearAllPlan() {
+        if (SERVER_PLANNED.length === 0) {
+            showToast('Your plan is already empty.', '');
+            return;
+        }
+        if (!confirm('Remove ALL courses from your plan? This cannot be undone.')) return;
+
+        // Remove all planned courses sequentially via fetch, then reload
+        const removes = SERVER_PLANNED.map(function(pc) { return pc.plannedCourseId; });
+        let chain = Promise.resolve();
+        removes.forEach(function(pcId) {
+            chain = chain.then(function() {
+                const body = new URLSearchParams();
+                body.append('plannedCourseId', pcId);
+                body.append('activeTab', 'planner');
+                return fetch('/student/course-planner/remove', {
+                    method: 'POST',
+                    body: body
+                });
+            });
+        });
+        chain.then(function() {
+            window.location.href = '/student/course-planner?activeTab=planner';
+        }).catch(function() {
+            showToast('An error occurred while clearing the plan. Please try again.', 'error');
+        });
+    }
+
+    // ── Section selection button state ────────────────────────────────────────
+
+    function updateSectionSelectionButton() {
+        const btn = document.getElementById('selectSectionsTabButton');
+        if (!btn) return;
+        if (SERVER_PLANNED.length > 0) {
+            btn.classList.remove('btn-disabled');
+            btn.removeAttribute('title');
+        } else {
+            btn.classList.add('btn-disabled');
+            btn.setAttribute('title', 'Add courses to your plan first');
+        }
+    }
+
+    // ── Tab switching ─────────────────────────────────────────────────────────
+
+    function switchTab(id, btn) {
+        document.querySelectorAll('.tab-panel').forEach(function(p) { p.classList.remove('active'); });
+        document.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('active'); });
+        const panel = document.getElementById('tab-' + id);
+        if (panel) panel.classList.add('active');
+        if (btn)   btn.classList.add('active');
+    }
+
+    // ── Toast ─────────────────────────────────────────────────────────────────
+
+    function showToast(msg, type) {
+        type = type || '';
+        const tc = document.getElementById('toastContainer');
+        if (!tc) return;
+        const t = document.createElement('div');
+        t.className   = 'toast ' + type;
+        t.textContent = msg;
+        tc.appendChild(t);
+        setTimeout(function() {
+            t.style.transition = 'opacity 0.3s';
+            t.style.opacity    = '0';
+            setTimeout(function() { if (t.parentNode) t.remove(); }, 300);
+        }, 3000);
+    }
+
+    // ── Boot ──────────────────────────────────────────────────────────────────
+
+    window.addEventListener('DOMContentLoaded', function() {
+        initPlanner();
+        switchTab('planner', document.getElementById('plannerTabButton'));
+
+        // Starting semester selector
+        document.getElementById('planStartSemester').addEventListener('change', onPlanStartSemesterChange);
+
+        // Semester count +/- buttons
+        document.getElementById('decrementSemBtn').addEventListener('click', decrementSemesterCount);
+        document.getElementById('incrementSemBtn').addEventListener('click', incrementSemesterCount);
+
+        // Clear plan button
+        document.getElementById('clearPlanBtn').addEventListener('click', clearAllPlan);
+
+        // Cancel add-context banner
+        document.getElementById('cancelContextBtn').addEventListener('click', clearAddContext);
+
+        // Event delegation for "+ Add Course" buttons in the plan grid
+        document.getElementById('planLayout').addEventListener('click', function(e) {
+            const btn = e.target.closest('.add-course-btn');
+            if (btn) {
+                setAddContext(btn.dataset.semKey, parseInt(btn.dataset.termIdx, 10), btn.dataset.label);
+            }
+        });
+
+        // Event delegation for remove-btn confirmation in the plan grid
+        document.getElementById('planLayout').addEventListener('submit', function(e) {
+            const btn = e.submitter;
+            if (btn && btn.classList.contains('remove-btn')) {
+                const code = btn.dataset.courseCode || 'this course';
+                if (!confirm('Remove ' + code + ' from your plan?')) {
+                    e.preventDefault();
+                }
+            }
+        });
+
+        // Event delegation for catalog add forms (term picker validation)
+        document.getElementById('availableCoursesSection').addEventListener('submit', function(e) {
+            const form = e.target.closest('.catalog-add-form');
+            if (form) {
+                if (!onAddFormSubmit(e, form)) {
+                    e.preventDefault();
+                }
+            }
+        });
+    });
+
+    /*]]>*/
     </script>
 </main>
 
