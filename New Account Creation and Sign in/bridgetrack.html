@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BridgeTrack — Create Account</title>
+  <link rel="stylesheet" href="bridgetrack.css" />
+</head>
+<body>
+
+  <nav class="navbar">
+    <a href="#" class="navbar-brand">Bridge<span>Track</span></a>
+    <ul class="navbar-links">
+      <li><a href="#">Sign In</a></li>
+      <li><a href="#">Create Account</a></li>
+      <li><a href="#">Apply Online</a></li>
+      <li><a href="#">Programs</a></li>
+    </ul>
+  </nav>
+
+  <div class="page-header">
+    <h1>Create Your BridgeTrack Account</h1>
+    <p>Fill out the form below to get started with your application.</p>
+  </div>
+
+  <main class="main-wrap">
+
+    <div class="signin-banner">
+      <span>Already have an account?</span>
+      <a href="#">Sign in here</a>
+    </div>
+
+    <div class="validation-summary" id="valSummary">
+      <h3>Please fix the following errors:</h3>
+      <ul id="valList"></ul>
+    </div>
+
+    <div class="success-screen" id="successScreen">
+      <h2>&#10003; Account Created!</h2>
+      <p>Welcome to BridgeTrack. Check your email for a confirmation link.</p>
+    </div>
+
+    <form id="createForm" novalidate>
+
+      <div class="card">
+        <div class="card-header">
+          <h2>Contact Information</h2>
+        </div>
+        <div class="card-body">
+          <div class="form-row cols-2">
+            <div class="field">
+              <label for="firstname">First Name <span class="required-star">*</span></label>
+              <input type="text" id="firstname" name="firstname" autocomplete="given-name" placeholder="Jane" />
+              <span class="field-error" id="err-firstname">First name is required.</span>
+            </div>
+            <div class="field">
+              <label for="lastname">Last Name <span class="required-star">*</span></label>
+              <input type="text" id="lastname" name="lastname" autocomplete="family-name" placeholder="Smith" />
+              <span class="field-error" id="err-lastname">Last name is required.</span>
+            </div>
+          </div>
+          <div class="form-row cols-2">
+            <div class="field">
+              <label for="email">Email Address <span class="required-star">*</span></label>
+              <input type="email" id="email" name="email" autocomplete="email" placeholder="jane@email.com" />
+              <span class="field-error" id="err-email">A valid email is required.</span>
+            </div>
+            <div class="field">
+              <label for="emailConfirm">Confirm Email <span class="required-star">*</span></label>
+              <input type="email" id="emailConfirm" name="emailConfirm" placeholder="jane@email.com" />
+              <span class="field-error" id="err-emailConfirm">Emails do not match.</span>
+            </div>
+          </div>
+          <div class="form-row cols-2">
+            <div class="field">
+              <label for="phone">Cell Phone <span class="required-star">*</span></label>
+              <input type="tel" id="phone" name="phone" autocomplete="tel" placeholder="(555) 000-0000" />
+              <span class="field-error" id="err-phone">Phone number is required.</span>
+            </div>
+            <div class="field">
+              <label for="dob">Date of Birth</label>
+              <input type="date" id="dob" name="dob" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h2>Address</h2>
+        </div>
+        <div class="card-body">
+          <div class="form-row cols-2">
+            <div class="field">
+              <label for="street">Street Address</label>
+              <input type="text" id="street" name="street" autocomplete="street-address" placeholder="123 Main St" />
+            </div>
+            <div class="field">
+              <label for="city">City</label>
+              <input type="text" id="city" name="city" placeholder="Charleston" />
+            </div>
+          </div>
+          <div class="form-row cols-2">
+            <div class="field">
+              <label for="state">State</label>
+              <select id="state" name="state">
+                <option value="">— Select —</option>
+                <option>Alabama</option><option>Alaska</option><option>Arizona</option>
+                <option>Arkansas</option><option>California</option><option>Colorado</option>
+                <option>Connecticut</option><option>Delaware</option><option>Florida</option>
+                <option>Georgia</option><option>Hawaii</option><option>Idaho</option>
+                <option>Illinois</option><option>Indiana</option><option>Iowa</option>
+                <option>Kansas</option><option>Kentucky</option><option>Louisiana</option>
+                <option>Maine</option><option>Maryland</option><option>Massachusetts</option>
+                <option>Michigan</option><option>Minnesota</option><option>Mississippi</option>
+                <option>Missouri</option><option>Montana</option><option>Nebraska</option>
+                <option>Nevada</option><option>New Hampshire</option><option>New Jersey</option>
+                <option>New Mexico</option><option>New York</option><option>North Carolina</option>
+                <option>North Dakota</option><option>Ohio</option><option>Oklahoma</option>
+                <option>Oregon</option><option>Pennsylvania</option><option>Rhode Island</option>
+                <option selected>South Carolina</option><option>South Dakota</option>
+                <option>Tennessee</option><option>Texas</option><option>Utah</option>
+                <option>Vermont</option><option>Virginia</option><option>Washington</option>
+                <option>West Virginia</option><option>Wisconsin</option><option>Wyoming</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="zip">ZIP Code</label>
+              <input type="text" id="zip" name="zip" placeholder="29401" maxlength="10" />
+            </div>
+          </div>
+          <div class="form-row cols-2">
+            <div class="field">
+              <label for="citizen">Are you a US Citizen? <span class="required-star">*</span></label>
+              <select id="citizen" name="citizen">
+                <option value="">— Select —</option>
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+              </select>
+              <span class="field-error" id="err-citizen">Please select an option.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h2>High School Information</h2>
+        </div>
+        <div class="card-body">
+          <div id="hsEntries"></div>
+          <button type="button" class="btn-add" id="addHsBtn" onclick="addHighSchool()">
+            + Add High School
+          </button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h2>Academic Goals</h2>
+        </div>
+        <div class="card-body">
+          <div class="form-row cols-2">
+            <div class="field">
+              <label for="term">Start Term <span class="required-star">*</span></label>
+              <select id="term" name="term">
+                <option value="">— Select —</option>
+                <option value="spring2026">Spring 2026</option>
+                <option value="summer2026">Summer 2026</option>
+                <option value="fall2026">Fall 2026</option>
+                <option value="spring2027">Spring 2027</option>
+              </select>
+              <span class="field-error" id="err-term">Please select a start term.</span>
+            </div>
+            <div class="field">
+              <label for="studentType">Applicant Type</label>
+              <select id="studentType" name="studentType">
+                <option value="">— Select —</option>
+                <option>First-Time Freshman</option>
+                <option>Transfer Student</option>
+                <option>Returning Student</option>
+                <option>Dual Enrollment (High School)</option>
+                <option>Visiting Student</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="field">
+              <label for="program">Program of Interest</label>
+              <select id="program" name="program">
+                <option value="">— Select a Program —</option>
+                <optgroup label="Business">
+                  <option>Accounting</option>
+                  <option>Business Administration</option>
+                  <option>Marketing</option>
+                </optgroup>
+                <optgroup label="Computer &amp; IT">
+                  <option>Computer Technology</option>
+                  <option>Cybersecurity</option>
+                  <option>Network Systems Management</option>
+                  <option>Web Design</option>
+                </optgroup>
+                <optgroup label="Health Sciences">
+                  <option>Nursing Preparation</option>
+                  <option>EMT / Paramedic</option>
+                </optgroup>
+                <optgroup label="Trades">
+                  <option>Automotive Technology</option>
+                  <option>Welding</option>
+                  <option>Culinary Arts</option>
+                </optgroup>
+                <optgroup label="Transfer / University Prep">
+                  <option>Associate in Arts (Transfer)</option>
+                  <option>Associate in Science (Transfer)</option>
+                </optgroup>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h2>Account Setup</h2>
+        </div>
+        <div class="card-body">
+          <p style="font-size:13px; color:#666; margin-bottom:14px;">
+            Password must be at least 8 characters and include an uppercase letter, lowercase letter, and a number.
+          </p>
+          <div class="form-row cols-2">
+            <div class="field">
+              <label for="password">Password <span class="required-star">*</span></label>
+              <input type="password" id="password" name="password" autocomplete="new-password" />
+              <span class="field-error" id="err-password">Password must be 8+ characters with uppercase, lowercase, and a number.</span>
+            </div>
+            <div class="field">
+              <label for="confirmPassword">Confirm Password <span class="required-star">*</span></label>
+              <input type="password" id="confirmPassword" name="confirmPassword" autocomplete="new-password" />
+              <span class="field-error" id="err-confirmPassword">Passwords do not match.</span>
+            </div>
+          </div>
+          <div class="checkbox-row">
+            <input type="checkbox" id="agreeTerms" name="agreeTerms" />
+            <span>I agree to the BridgeTrack <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="submit-wrap">
+        <button type="submit" class="btn-submit" id="submitBtn">Create Account</button>
+        <p class="submit-note">Already have an account? <a href="#">Sign in here</a>.</p>
+      </div>
+
+    </form>
+  </main>
+
+  <footer class="site-footer">
+    <a href="#">Privacy Policy</a>
+    <a href="#">Terms of Service</a>
+    <a href="#">Contact</a>
+    <div style="margin-top:8px">© 2025 BridgeTrack. All rights reserved.</div>
+  </footer>
+
+  <script src="bridgetrack.js"></script>
+</body>
+</html>

@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>BridgeTrack Admin | Manage Instructors</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/bridgetrack.css">
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f1f3f6;
+            color: #333;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .admin-sidebar {
+            width: 280px;
+            background: #ffffff;
+            border-right: 1px solid #d6dce5;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .admin-sidebar-top {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .admin-logo {
+            padding: 16px 20px;
+            border-bottom: 1px solid #e6ebf1;
+            margin-bottom: 8px;
+        }
+
+        .admin-logo img {
+            width: 200px;
+            height: auto;
+            display: block;
+        }
+
+        .admin-sidebar h2 {
+            padding: 0 24px 12px;
+            margin: 0;
+            font-size: 18px;
+            color: #1c3557;
+        }
+
+        .admin-sidebar ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .admin-sidebar li {
+            margin: 0;
+            padding: 0;
+        }
+
+        .admin-sidebar a {
+            display: block;
+            padding: 12px 24px;
+            color: #2d3d65;
+            text-decoration: none;
+            font-size: 15px;
+            border-left: 4px solid transparent;
+        }
+
+        .admin-sidebar a:hover,
+        .admin-sidebar a.active {
+            background: #eef4fa;
+            color: #1c3557;
+            font-weight: bold;
+            border-left: 4px solid #1a5ea8;
+        }
+
+        .admin-sidebar-bottom {
+            padding: 18px 24px;
+            border-top: 1px solid #e6ebf1;
+        }
+
+        .admin-sidebar-bottom a {
+            padding: 0;
+            border-left: none;
+            font-weight: bold;
+        }
+
+        .admin-sidebar-bottom a:hover {
+            background: transparent;
+            color: #1a5ea8;
+        }
+
+        .admin-main {
+            flex: 1;
+            padding: 28px 24px;
+            background: #f1f3f6;
+        }
+
+        .page-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .page-header h2 {
+            margin: 0;
+            color: #1a3a5c;
+        }
+
+        .card {
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            padding: 20px;
+            margin-bottom: 24px;
+        }
+
+        .card h3 {
+            margin-top: 0;
+            color: #1a3a5c;
+        }
+
+        .filter-row {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            align-items: end;
+            margin-bottom: 14px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            font-size: 14px;
+            margin-bottom: 6px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group select {
+            padding: 10px 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 14px;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #fff;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        .instructor-table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 1100px;
+        }
+
+        .instructor-table th,
+        .instructor-table td {
+            padding: 12px 14px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+            font-size: 14px;
+            vertical-align: middle;
+        }
+
+        .instructor-table th {
+            background-color: #1a3a5c;
+            color: white;
+            font-weight: bold;
+            white-space: nowrap;
+        }
+
+        .instructor-table tr:nth-child(even) {
+            background-color: #f8fbff;
+        }
+
+        .instructor-table tr:hover {
+            background-color: #eef5fc;
+        }
+
+        .instructor-table th:nth-child(1),
+        .instructor-table td:nth-child(1) {
+            width: 80px;
+        }
+
+        .instructor-table th:nth-child(2),
+        .instructor-table td:nth-child(2),
+        .instructor-table th:nth-child(3),
+        .instructor-table td:nth-child(3) {
+            width: 140px;
+        }
+
+        .instructor-table th:nth-child(4),
+        .instructor-table td:nth-child(4) {
+            width: 240px;
+        }
+
+        .instructor-table th:nth-child(5),
+        .instructor-table td:nth-child(5) {
+            width: 160px;
+        }
+
+        .instructor-table th:nth-child(6),
+        .instructor-table td:nth-child(6),
+        .instructor-table th:nth-child(7),
+        .instructor-table td:nth-child(7) {
+            width: 140px;
+        }
+
+        .instructor-table th:nth-child(8),
+        .instructor-table td:nth-child(8) {
+            width: 220px;
+        }
+
+        .table-input,
+        .table-select {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 8px 10px;
+            border: 1px solid #c9d3df;
+            border-radius: 6px;
+            font-size: 13px;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #fff;
+        }
+
+        .readonly-cell {
+            font-weight: bold;
+            color: #1a3a5c;
+            white-space: normal;
+            word-break: break-word;
+        }
+
+        .btn,
+        .btn-secondary,
+        .btn-danger,
+        .btn-outline,
+        .btn-small {
+            display: inline-block;
+            padding: 10px 16px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 14px;
+            border: none;
+            cursor: pointer;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .btn {
+            background: #1a3a5c;
+            color: white;
+        }
+
+        .btn:hover {
+            background: #16324f;
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+
+        .btn-danger {
+            background: #b03a2e;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #922b21;
+        }
+
+        .btn-outline {
+            background: #ffffff;
+            color: #1a3a5c;
+            border: 1px solid #1a3a5c;
+        }
+
+        .btn-outline:hover {
+            background: #eef4fa;
+        }
+
+        .btn-small {
+            background: #1a5ea8;
+            color: white;
+            padding: 8px 12px;
+            font-size: 13px;
+        }
+
+        .btn-small:hover {
+            background: #154d88;
+        }
+
+        .btn-row {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .display-mode {
+            display: inline;
+        }
+
+        .edit-mode {
+            display: none;
+        }
+
+        tr.editing .display-mode {
+            display: none;
+        }
+
+        tr.editing .edit-mode {
+            display: inline-block;
+            width: 100%;
+        }
+
+        tr.editing .display-action {
+            display: none;
+        }
+
+        tr.editing .edit-action {
+            display: flex;
+        }
+
+        .edit-action {
+            display: none;
+        }
+
+        .empty-message {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+        }
+
+        @media (max-width: 900px) {
+            body {
+                flex-direction: column;
+            }
+
+            .admin-sidebar {
+                width: 100%;
+            }
+
+            .admin-main {
+                padding: 20px 16px;
+            }
+
+            .page-container {
+                padding: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<aside class="admin-sidebar">
+    <div class="admin-sidebar-top">
+        <div class="admin-logo">
+            <img src="/bridgetrack-logo.jpeg" alt="BridgeTrack Logo">
+        </div>
+
+        <h2>Admin Dashboard</h2>
+
+        <ul>
+            <li><a href="/admindashboard">Dashboard</a></li>
+            <li><a href="/TermManagement.html">Terms</a></li>
+            <li><a href="/coursemanagement.html">Courses</a></li>
+            <li><a href="/programManagement.html">Programs</a></li>
+            <li><a href="/sectionmanagement.html">Sections</a></li>
+            <li><a href="/students.html">Students</a></li>
+            <li><a class="active" href="/admin/instructors">Instructors</a></li>
+            <li><a href="/admin/attendance-reports">Attendance Reports</a></li>
+        </ul>
+    </div>
+
+    <div class="admin-sidebar-bottom">
+        <a href="/logout">Logout</a>
+    </div>
+</aside>
+
+<main class="admin-main">
+    <div class="page-container">
+        <div class="page-header">
+            <h2>Instructors</h2>
+            <div class="btn-row">
+                <a href="/admindashboard" class="btn-secondary">Back to Dashboard</a>
+				<a href="/admin/instructors/add" class="btn">Add Instructor</a>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>Current Instructors</h3>
+
+            <div class="filter-row">
+                <div class="form-group" style="min-width: 280px;">
+                    <label for="instructorSearchFilter">Search</label>
+                    <input type="text" id="instructorSearchFilter" placeholder="Name, email, or phone">
+                </div>
+
+                <div class="form-group" style="min-width: 220px;">
+                    <label for="instructorRoleFilter">Role</label>
+                    <select id="instructorRoleFilter">
+                        <option value="ALL">All Roles</option>
+                        <option value="INSTRUCTOR">INSTRUCTOR</option>
+                        <option value="ADMIN">ADMIN</option>
+                    </select>
+                </div>
+
+                <div class="form-group" style="min-width: 220px;">
+                    <label for="instructorStatusFilter">Status</label>
+                    <select id="instructorStatusFilter">
+                        <option value="ALL">All Statuses</option>
+                        <option value="ACTIVE">ACTIVE</option>
+                        <option value="INACTIVE">INACTIVE</option>
+                    </select>
+                </div>
+
+                <button type="button" class="btn-secondary" onclick="clearFilters()">Clear Filters</button>
+            </div>
+
+            <div class="table-wrapper">
+                <table class="instructor-table">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>First</th>
+                        <th>Last</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Role</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+
+                    <tbody id="instructorTableBody">
+                    <tr th:each="inst : ${instructors}"
+                        th:attr="data-role=${inst.role},data-status=${inst.status},data-search=${#strings.toLowerCase((inst.firstName ?: '') + ' ' + (inst.lastName ?: '') + ' ' + (inst.email ?: '') + ' ' + (inst.phone ?: ''))}">
+                        <td class="readonly-cell" th:text="${inst.instructorId}"></td>
+
+                        <td>
+                            <span class="display-mode" th:text="${inst.firstName}"></span>
+                            <input class="table-input edit-mode" type="text"
+                                   name="firstName"
+                                   th:value="${inst.firstName}"
+                                   th:form="'form-' + ${inst.instructorId}">
+                        </td>
+
+                        <td>
+                            <span class="display-mode" th:text="${inst.lastName}"></span>
+                            <input class="table-input edit-mode" type="text"
+                                   name="lastName"
+                                   th:value="${inst.lastName}"
+                                   th:form="'form-' + ${inst.instructorId}">
+                        </td>
+
+                        <td>
+                            <span class="display-mode" th:text="${inst.email}"></span>
+                            <input class="table-input edit-mode" type="email"
+                                   name="email"
+                                   th:value="${inst.email}"
+                                   th:form="'form-' + ${inst.instructorId}">
+                        </td>
+
+                        <td>
+                            <span class="display-mode" th:text="${inst.phone}"></span>
+                            <input class="table-input edit-mode" type="text"
+                                   name="phone"
+                                   th:value="${inst.phone}"
+                                   th:form="'form-' + ${inst.instructorId}">
+                        </td>
+
+                        <td>
+                            <span class="display-mode" th:text="${inst.role}"></span>
+                            <select class="table-select edit-mode"
+                                    name="role"
+                                    th:form="'form-' + ${inst.instructorId}">
+                                <option value="INSTRUCTOR" th:selected="${inst.role == 'INSTRUCTOR'}">INSTRUCTOR</option>
+                                <option value="ADMIN" th:selected="${inst.role == 'ADMIN'}">ADMIN</option>
+                            </select>
+                        </td>
+
+                        <td>
+                            <span class="display-mode" th:text="${inst.status}"></span>
+                            <select class="table-select edit-mode"
+                                    name="status"
+                                    th:form="'form-' + ${inst.instructorId}">
+                                <option value="ACTIVE" th:selected="${inst.status == 'ACTIVE'}">ACTIVE</option>
+                                <option value="INACTIVE" th:selected="${inst.status == 'INACTIVE'}">INACTIVE</option>
+                            </select>
+                        </td>
+
+                        <td>
+                            <div class="action-buttons display-action">
+                                <button type="button"
+                                        class="btn-outline"
+                                        th:attr="onclick='startEdit(this)'">
+                                    Edit
+                                </button>
+                            </div>
+
+                            <div class="action-buttons edit-action">
+                                <button type="submit"
+                                        class="btn-small"
+                                        th:form="'form-' + ${inst.instructorId}">
+                                    Save
+                                </button>
+
+                                <a th:href="@{'/admin/instructors/delete/' + ${inst.instructorId}}"
+                                   class="btn-danger">
+                                    Delete
+                                </a>
+
+                                <button type="button"
+                                        class="btn-secondary"
+                                        th:attr="onclick='cancelEdit(this)'">
+                                    Cancel
+                                </button>
+                            </div>
+
+                            <form th:id="'form-' + ${inst.instructorId}"
+                                  th:action="@{/admin/instructors/update}"
+                                  method="post">
+                                <input type="hidden" name="instructorId" th:value="${inst.instructorId}">
+                            </form>
+                        </td>
+                    </tr>
+                    <tr th:if="${#lists.isEmpty(instructors)}">
+                        <td colspan="8" class="empty-message">No instructors found.</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script>
+    function startEdit(button) {
+        const row = button.closest("tr");
+        if (!row) return;
+        document.querySelectorAll("#instructorTableBody tr.editing").forEach(r => r.classList.remove("editing"));
+        row.classList.add("editing");
+    }
+
+    function cancelEdit(button) {
+        const row = button.closest("tr");
+        if (!row) return;
+        row.classList.remove("editing");
+        const formId = row.querySelector("form")?.id;
+        if (formId) {
+            document.getElementById(formId).reset();
+        }
+    }
+
+    function applyFilters() {
+        const searchValue = document.getElementById("instructorSearchFilter").value.trim().toLowerCase();
+        const roleValue = document.getElementById("instructorRoleFilter").value;
+        const statusValue = document.getElementById("instructorStatusFilter").value;
+        const rows = document.querySelectorAll("#instructorTableBody tr[data-search]");
+
+        rows.forEach(row => {
+            const searchText = row.getAttribute("data-search") || "";
+            const role = (row.getAttribute("data-role") || "").toUpperCase();
+            const status = (row.getAttribute("data-status") || "").toUpperCase();
+
+            const matchesSearch = !searchValue || searchText.includes(searchValue);
+            const matchesRole = roleValue === "ALL" || role === roleValue;
+            const matchesStatus = statusValue === "ALL" || status === statusValue;
+
+            row.style.display = matchesSearch && matchesRole && matchesStatus ? "" : "none";
+        });
+    }
+
+    function clearFilters() {
+        document.getElementById("instructorSearchFilter").value = "";
+        document.getElementById("instructorRoleFilter").value = "ALL";
+        document.getElementById("instructorStatusFilter").value = "ALL";
+        document.querySelectorAll("#instructorTableBody tr.editing").forEach(r => r.classList.remove("editing"));
+        applyFilters();
+    }
+
+    document.getElementById("instructorSearchFilter").addEventListener("input", function() {
+        document.querySelectorAll("#instructorTableBody tr.editing").forEach(r => r.classList.remove("editing"));
+        applyFilters();
+    });
+
+    document.getElementById("instructorRoleFilter").addEventListener("change", function() {
+        document.querySelectorAll("#instructorTableBody tr.editing").forEach(r => r.classList.remove("editing"));
+        applyFilters();
+    });
+
+    document.getElementById("instructorStatusFilter").addEventListener("change", function() {
+        document.querySelectorAll("#instructorTableBody tr.editing").forEach(r => r.classList.remove("editing"));
+        applyFilters();
+    });
+</script>
+
+</body>
+</html>

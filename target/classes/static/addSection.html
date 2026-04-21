@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BridgeTrack | Add Section</title>
+    <link rel="stylesheet" href="bridgetrack.css">
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f1f3f6;
+            color: #333;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .admin-sidebar {
+            width: 280px;
+            background: #ffffff;
+            border-right: 1px solid #d6dce5;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .admin-sidebar-top {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .admin-logo {
+            padding: 16px 20px;
+            border-bottom: 1px solid #e6ebf1;
+            margin-bottom: 8px;
+        }
+
+        .admin-logo img {
+            width: 200px;
+            height: auto;
+            display: block;
+        }
+
+        .admin-sidebar h2 {
+            padding: 0 24px 12px;
+            margin: 0;
+            font-size: 18px;
+            color: #1c3557;
+        }
+
+        .admin-sidebar ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .admin-sidebar li {
+            margin: 0;
+            padding: 0;
+        }
+
+        .admin-sidebar a {
+            display: block;
+            padding: 12px 24px;
+            color: #2d3d65;
+            text-decoration: none;
+            font-size: 15px;
+            border-left: 4px solid transparent;
+        }
+
+        .admin-sidebar a:hover,
+        .admin-sidebar a.active {
+            background: #eef4fa;
+            color: #1c3557;
+            font-weight: bold;
+            border-left: 4px solid #1a5ea8;
+        }
+
+        .admin-sidebar-bottom {
+            padding: 18px 24px;
+            border-top: 1px solid #e6ebf1;
+        }
+
+        .admin-sidebar-bottom a {
+            padding: 0;
+            border-left: none;
+            font-weight: bold;
+        }
+
+        .admin-sidebar-bottom a:hover {
+            background: transparent;
+            color: #1a5ea8;
+        }
+
+        .admin-main {
+            flex: 1;
+            padding: 28px 24px;
+            background: #f1f3f6;
+        }
+
+        .page-container {
+            max-width: 1250px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .page-header h2 {
+            margin: 0;
+            color: #1a3a5c;
+        }
+
+        .card {
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            padding: 20px;
+            margin-bottom: 24px;
+        }
+
+        .card h3 {
+            margin-top: 0;
+            color: #1a3a5c;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+            margin-bottom: 18px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            font-size: 14px;
+            margin-bottom: 6px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group select {
+            padding: 10px 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 14px;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #fff;
+        }
+
+        .meeting-days-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            padding: 10px 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            background: #fff;
+            min-height: 44px;
+            justify-content: center;
+        }
+
+        .checkbox-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .checkbox-option {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 14px;
+            color: #333;
+        }
+
+        .checkbox-option input[type="checkbox"] {
+            margin: 0;
+            width: 16px;
+            height: 16px;
+        }
+
+        .btn,
+        .btn-secondary {
+            display: inline-block;
+            padding: 10px 16px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 14px;
+            border: none;
+            cursor: pointer;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .btn {
+            background: #1a3a5c;
+            color: white;
+        }
+
+        .btn:hover {
+            background: #16324f;
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+
+        .btn-row {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .status-message {
+            margin-top: 12px;
+            font-size: 14px;
+            color: #444;
+        }
+
+        @media (max-width: 900px) {
+            body {
+                flex-direction: column;
+            }
+
+            .admin-sidebar {
+                width: 100%;
+            }
+
+            .admin-main {
+                padding: 20px 16px;
+            }
+
+            .page-container {
+                padding: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <aside class="admin-sidebar">
+        <div class="admin-sidebar-top">
+            <div class="admin-logo">
+                <img src="/bridgetrack-logo.jpeg" alt="BridgeTrack Logo">
+            </div>
+
+            <h2>Section Management</h2>
+
+            <ul>
+                <li><a href="/admindashboard">Dashboard</a></li>
+                <li><a href="TermManagement.html">Terms</a></li>
+                <li><a href="programmanagement.html">Programs</a></li>
+                <li><a href="coursemanagement.html">Courses</a></li>
+                <li><a href="sectionmanagement.html">Sections</a></li>
+                <li><a href="students.html">Students</a></li>
+                <li><a href="/admin/instructors">Instructors</a></li>
+                <li><a href="/admin/attendance-reports">Attendance Reports</a></li>
+            </ul>
+        </div>
+
+        <div class="admin-sidebar-bottom">
+            <a href="/logout">Logout</a>
+        </div>
+    </aside>
+
+    <main class="admin-main">
+        <div class="page-container">
+            <div class="page-header">
+                <h2>Add Section</h2>
+                <div class="btn-row">
+                    <a href="sectionmanagement.html" class="btn-secondary">Back to Sections</a>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>Section Information</h3>
+
+                <form id="sectionForm">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="courseSelect">Course</label>
+                            <select id="courseSelect" required></select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="termSelect">Term</label>
+                            <select id="termSelect" required></select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="instructorSelect">Instructor</label>
+                            <select id="instructorSelect">
+                                <option value="">Select Instructor</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="modality">Modality</label>
+                            <select id="modality" required>
+                                <option value="">Select Modality</option>
+                                <option value="In-person">In-person</option>
+                                <option value="Online">Online</option>
+                                <option value="Hybrid">Hybrid</option>
+                                <option value="SOM">SOM</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="location">Location</label>
+                            <select id="location" required>
+                                <option value="">Select Location</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="capacity">Capacity</label>
+                            <input type="number" id="capacity" placeholder="25">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Meeting Days</label>
+                            <div class="meeting-days-group">
+                                <div class="checkbox-row">
+                                    <label class="checkbox-option">
+                                        <input type="checkbox" name="meetingDaysOption" value="Mon/Wed">
+                                        <span>Mon/Wed</span>
+                                    </label>
+                                    <label class="checkbox-option">
+                                        <input type="checkbox" name="meetingDaysOption" value="Tue/Thu">
+                                        <span>Tue/Thu</span>
+                                    </label>
+                                    <label class="checkbox-option">
+                                        <input type="checkbox" name="meetingDaysOption" value="Sat">
+                                        <span>Sat</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="startTime">Start Time</label>
+                            <input type="time" id="startTime">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="endTime">End Time</label>
+                            <input type="time" id="endTime">
+                        </div>
+                    </div>
+
+                    <div class="btn-row">
+                        <button type="submit" class="btn">Create Section</button>
+                        <a class="btn-secondary" href="sectionmanagement.html">Cancel</a>
+                    </div>
+                </form>
+
+                <p id="formStatus" class="status-message"></p>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        let courses = [];
+        let terms = [];
+        let instructors = [];
+
+        const modalityLocationOptions = {
+            "In-person": [
+                "Room 101",
+                "Room 102",
+                "Room 201",
+                "Main Campus"
+            ],
+            "Online": [
+                "WebEx"
+            ],
+            "Hybrid": [
+                "Room 101 + WebEx",
+                "Room 102 + WebEx",
+                "Main Campus + WebEx"
+            ],
+            "SOM": [
+                "SOM Building",
+                "SOM Lab 1",
+                "SOM Lab 2"
+            ]
+        };
+
+        function setStatus(elementId, message) {
+            const element = document.getElementById(elementId);
+            if (element) {
+                element.textContent = message || "";
+            }
+        }
+
+        function normalizeTimeValue(timeValue) {
+            if (!timeValue) return null;
+            if (timeValue.length === 5) return `${timeValue}:00`;
+            return timeValue;
+        }
+
+        function buildLocationOptions(selectedModality, selectedLocation = "") {
+            const locations = modalityLocationOptions[selectedModality] || [];
+            let options = '<option value="">Select Location</option>';
+
+            locations.forEach(location => {
+                const selected = location === selectedLocation ? "selected" : "";
+                options += `<option value="${location}" ${selected}>${location}</option>`;
+            });
+
+            return options;
+        }
+
+        function updateCreateLocationOptions() {
+            const modalitySelect = document.getElementById("modality");
+            const locationSelect = document.getElementById("location");
+            const selectedModality = modalitySelect.value;
+
+            locationSelect.innerHTML = buildLocationOptions(selectedModality);
+
+            if (!selectedModality) {
+                locationSelect.value = "";
+            }
+        }
+
+        function getSelectedMeetingDays() {
+            const checked = Array.from(document.querySelectorAll('input[name="meetingDaysOption"]:checked'))
+                .map(cb => cb.value);
+            return checked.join(", ");
+        }
+
+        async function loadCourses() {
+            const response = await fetch("/api/courses");
+            if (!response.ok) {
+                throw new Error("Failed to load courses.");
+            }
+
+            courses = await response.json();
+
+            const courseSelect = document.getElementById("courseSelect");
+            courseSelect.innerHTML = '<option value="">Select Course</option>';
+
+            courses.forEach(course => {
+                const label = `${course.courseCode} - ${course.courseName}`;
+
+                const option = document.createElement("option");
+                option.value = course.courseId;
+                option.textContent = label;
+                courseSelect.appendChild(option);
+            });
+        }
+
+        async function loadTerms() {
+            const response = await fetch("/terms");
+            if (!response.ok) {
+                throw new Error("Failed to load terms.");
+            }
+
+            terms = await response.json();
+
+            const termSelect = document.getElementById("termSelect");
+            termSelect.innerHTML = '<option value="">Select Term</option>';
+
+            terms.forEach(term => {
+                const option = document.createElement("option");
+                option.value = term.termId;
+                option.textContent = term.termName;
+                termSelect.appendChild(option);
+            });
+        }
+
+        async function loadInstructors() {
+            const instructorSelect = document.getElementById("instructorSelect");
+            instructorSelect.innerHTML = '<option value="">Select Instructor</option>';
+
+            const endpoints = [
+                "/api/instructors",
+                "/admin/instructors/list",
+                "/instructors"
+            ];
+
+            let loaded = false;
+
+            for (const endpoint of endpoints) {
+                try {
+                    const response = await fetch(endpoint);
+                    if (!response.ok) {
+                        continue;
+                    }
+
+                    const data = await response.json();
+                    if (!Array.isArray(data)) {
+                        continue;
+                    }
+
+                    instructors = data;
+                    loaded = true;
+                    break;
+                } catch (error) {
+                }
+            }
+
+            if (!loaded) {
+                return;
+            }
+
+            instructors.forEach(instructor => {
+                const instructorId = instructor.instructorId ?? instructor.id ?? "";
+                const firstName = instructor.firstName ?? "";
+                const lastName = instructor.lastName ?? "";
+                const email = instructor.email ?? "";
+                const label = `${firstName} ${lastName}`.trim() || email || `Instructor ${instructorId}`;
+
+                const option = document.createElement("option");
+                option.value = instructorId;
+                option.textContent = instructorId ? `${label} (ID: ${instructorId})` : label;
+                instructorSelect.appendChild(option);
+            });
+        }
+
+        async function createSection(event) {
+            event.preventDefault();
+            setStatus("formStatus", "");
+
+            const payload = {
+                courseId: document.getElementById("courseSelect").value
+                    ? Number(document.getElementById("courseSelect").value)
+                    : null,
+                termId: document.getElementById("termSelect").value
+                    ? Number(document.getElementById("termSelect").value)
+                    : null,
+                instructorId: document.getElementById("instructorSelect").value
+                    ? Number(document.getElementById("instructorSelect").value)
+                    : null,
+                meetingDays: getSelectedMeetingDays() || null,
+                startTime: normalizeTimeValue(document.getElementById("startTime").value),
+                endTime: normalizeTimeValue(document.getElementById("endTime").value),
+                modality: document.getElementById("modality").value || null,
+                location: document.getElementById("location").value || null,
+                capacity: document.getElementById("capacity").value
+                    ? Number(document.getElementById("capacity").value)
+                    : null,
+                courseRequiresPrereq: false,
+                courseCategory: ""
+            };
+
+            try {
+                const response = await fetch("/api/sections", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    throw new Error(errorText || "Failed to create section.");
+                }
+
+                document.getElementById("sectionForm").reset();
+                updateCreateLocationOptions();
+                setStatus("formStatus", "Section created successfully. Returning...");
+
+                setTimeout(() => {
+                    window.location.href = "sectionmanagement.html";
+                }, 700);
+            } catch (error) {
+                setStatus("formStatus", error.message || "Unable to create section.");
+            }
+        }
+
+        async function initializePage() {
+            try {
+                await loadCourses();
+                await loadTerms();
+                await loadInstructors();
+                updateCreateLocationOptions();
+            } catch (error) {
+                setStatus("formStatus", error.message || "Unable to load section creation data.");
+            }
+        }
+
+        document.getElementById("sectionForm").addEventListener("submit", createSection);
+        document.getElementById("modality").addEventListener("change", updateCreateLocationOptions);
+
+        initializePage();
+    </script>
+
+</body>
+</html>

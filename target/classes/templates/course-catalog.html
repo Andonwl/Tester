@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BridgeTrack Course Catalog</title>
+    <style>
+        :root {
+            --primary-blue: #243b5a;
+            --secondary-blue: #1f4268;
+            --accent-orange: #e58a2c;
+            --light-blue: #e6edf5;
+            --text-dark: #1f2937;
+            --muted-text: #6b7280;
+            --page-bg: #f4f7fb;
+            --card-bg: #ffffff;
+            --border-light: #d1d5db;
+            --sidebar-border: #d6dce5;
+            --sidebar-hover: #eef4fa;
+            --sidebar-active: #1a5ea8;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: var(--page-bg);
+            margin: 0;
+            padding: 0;
+            color: var(--text-dark);
+        }
+
+        .site-header {
+            background: var(--primary-blue);
+            color: white;
+            border-top: 4px solid var(--accent-orange);
+        }
+
+        .site-header-inner {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 28px 34px 34px;
+        }
+
+        .site-title {
+            margin: 0;
+            font-size: 46px;
+            font-weight: 700;
+            line-height: 1.1;
+        }
+
+        .site-subtitle {
+            margin-top: 26px;
+            font-size: 18px;
+            font-weight: 500;
+        }
+
+        .main-nav {
+            background: #1f4268;
+            width: 100%;
+        }
+
+        .main-nav ul {
+            list-style: none;
+            padding: 0 34px;
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            gap: 18px;
+        }
+
+        .main-nav li {
+            margin: 0;
+            padding: 0;
+        }
+
+        .main-nav a {
+            display: inline-block;
+            color: white;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 600;
+            padding: 18px 10px;
+            border-bottom: 3px solid transparent;
+            transition: background 0.2s ease, border-color 0.2s ease;
+        }
+
+        .main-nav a:hover {
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        .main-nav a.active {
+            border-bottom-color: var(--accent-orange);
+        }
+
+        .student-layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+		.student-sidebar {
+		  width: 280px;
+		  background: #ffffff;
+		  border-right: 1px solid #d6dce5;
+		  display: flex;
+		  flex-direction: column;
+		  justify-content: space-between;
+		}
+
+		.student-sidebar-top {
+		  display: flex;
+		  flex-direction: column;
+		}
+
+		.student-logo {
+		  padding: 16px 20px;
+		  border-bottom: 1px solid #e6ebf1;
+		  margin-bottom: 8px;
+		}
+
+		.student-logo img {
+		  width: 200px;
+		  height: auto;
+		  display: block;
+		}
+
+		.student-sidebar h2 {
+		  padding: 0 24px 12px;
+		  margin: 0;
+		  font-size: 18px;
+		  color: #1c3557;
+		}
+
+		.student-sidebar ul {
+		  list-style: none;
+		  margin: 0;
+		  padding: 0;
+		}
+
+		.student-sidebar a {
+		  display: block;
+		  padding: 12px 24px;
+		  color: #2d3d65;
+		  text-decoration: none;
+		  border-left: 4px solid transparent;
+		  font-size: 15px;
+		}
+
+		.student-sidebar a:hover,
+		.student-sidebar a.active {
+		  background: #eef4fa;
+		  color: #1c3557;
+		  font-weight: bold;
+		  border-left: 4px solid #1a5ea8;
+		}
+
+		.student-sidebar-bottom {
+		  padding: 18px 24px;
+		  border-top: 1px solid #e6ebf1;
+		}
+
+		.student-sidebar-bottom a {
+		  padding: 0;
+		  border-left: none;
+		  font-weight: bold;
+		}
+
+		.student-sidebar-bottom a:hover {
+		  background: transparent;
+		  color: #1a5ea8;
+		}
+
+        .student-main {
+            flex: 1;
+            min-width: 0;
+            background: var(--page-bg);
+        }
+
+        .page-container {
+            max-width: 1200px;
+            margin: 36px auto 40px;
+            padding: 0 24px;
+        }
+
+        .student-main .page-container {
+            max-width: 1200px;
+            margin: 36px auto 40px;
+            padding: 0 28px;
+        }
+
+        .page-title {
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: var(--primary-blue);
+        }
+
+        .page-subtitle {
+            color: var(--muted-text);
+            margin-bottom: 24px;
+            font-size: 15px;
+        }
+
+        .filters-card {
+            background: var(--card-bg);
+            border-radius: 14px;
+            padding: 20px;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+            margin-bottom: 24px;
+        }
+
+        .filters-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .filter-group label {
+            font-weight: 600;
+            margin-bottom: 6px;
+            font-size: 14px;
+            color: var(--primary-blue);
+        }
+
+        .filter-group input,
+        .filter-group select {
+            padding: 10px 12px;
+            border: 1px solid var(--border-light);
+            border-radius: 8px;
+            font-size: 14px;
+            background: white;
+            color: var(--text-dark);
+        }
+
+        .filter-group input:focus,
+        .filter-group select:focus {
+            outline: none;
+            border-color: var(--secondary-blue);
+            box-shadow: 0 0 0 3px rgba(31, 66, 104, 0.12);
+        }
+
+        .filter-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 18px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            border: none;
+            border-radius: 8px;
+            padding: 10px 16px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: background 0.2s ease, transform 0.15s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-1px);
+        }
+
+        .btn-primary {
+            background: var(--primary-blue);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--secondary-blue);
+        }
+
+        .btn-secondary {
+            background: #e5e7eb;
+            color: #111827;
+        }
+
+        .btn-secondary:hover {
+            background: #dbe0e6;
+        }
+
+        .results-info {
+            margin-bottom: 14px;
+            font-size: 14px;
+            color: #4b5563;
+        }
+
+        .catalog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+            gap: 18px;
+        }
+
+        .course-card {
+            background: white;
+            border-radius: 14px;
+            padding: 18px;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            transition: 0.2s ease;
+        }
+
+        .course-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .course-code {
+            color: var(--primary-blue);
+            font-weight: bold;
+            font-size: 14px;
+            text-transform: uppercase;
+        }
+
+        .course-name {
+            font-size: 20px;
+            font-weight: bold;
+            margin: 0;
+            color: var(--text-dark);
+        }
+
+        .course-description {
+            color: #4b5563;
+            line-height: 1.5;
+            font-size: 14px;
+        }
+
+        .course-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 6px;
+        }
+
+        .tag {
+            background: var(--light-blue);
+            color: var(--primary-blue);
+            border-radius: 999px;
+            padding: 6px 10px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .empty-state {
+            background: white;
+            border-radius: 14px;
+            padding: 28px;
+            text-align: center;
+            color: var(--muted-text);
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+        }
+
+        @media (max-width: 980px) {
+            .student-layout {
+                flex-direction: column;
+            }
+
+            .student-sidebar {
+                width: 100%;
+            }
+
+            .student-main .page-container {
+                padding: 0 16px;
+                margin-top: 28px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .site-header-inner {
+                padding: 24px 20px 28px;
+            }
+
+            .site-title {
+                font-size: 36px;
+            }
+
+            .site-subtitle {
+                font-size: 16px;
+                margin-top: 18px;
+            }
+
+            .main-nav ul {
+                padding: 0 20px;
+                flex-wrap: wrap;
+                gap: 8px 14px;
+            }
+
+            .main-nav a {
+                padding: 14px 8px;
+            }
+
+            .page-container {
+                padding: 0 16px;
+                margin-top: 28px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div th:if="${studentView}" class="student-layout">
+	<aside class="student-sidebar">
+	  <div class="student-sidebar-top">
+	    <div class="student-logo">
+	      <img th:src="@{/bridgetrack-logo.jpeg}" src="/bridgetrack-logo.jpeg" alt="BridgeTrack Logo">
+	    </div>
+
+	    <h2>Student Dashboard</h2>
+
+	    <ul>
+	      <li><a th:href="@{/student/course-planner}">Course Planner</a></li>
+	      <li><a th:href="@{/student/schedule}">My Schedule</a></li>
+	      <li><a class="active" th:href="@{/student/catalog}">Course Catalog</a></li>
+	      <li><a th:href="@{/student/profile}">Profile</a></li>
+	    </ul>
+	  </div>
+
+	  <div class="student-sidebar-bottom">
+	    <a th:href="@{/login}" href="/login">Logout</a>
+	  </div>
+	</aside>
+
+    <main class="student-main">
+        <div class="page-container">
+            <div class="page-title">Course Catalog</div>
+            <div class="page-subtitle">
+                Browse available courses and filter by program, modality, category, prerequisites, or search term.
+            </div>
+
+            <div class="filters-card">
+                <div class="filters-grid">
+                    <div class="filter-group">
+                        <label for="searchFilter">Search</label>
+                        <input type="text" id="searchFilter" placeholder="Search code, title, or description">
+                    </div>
+
+                    <div class="filter-group">
+                        <label for="programFilter">Program</label>
+                        <select id="programFilter">
+                            <option value="">All Programs</option>
+                        </select>
+                    </div>
+
+                    <div class="filter-group">
+                        <label for="modalityFilter">Modality</label>
+                        <select id="modalityFilter">
+                            <option value="">All Modalities</option>
+                        </select>
+                    </div>
+
+                    <div class="filter-group">
+                        <label for="categoryFilter">Category</label>
+                        <select id="categoryFilter">
+                            <option value="">All Categories</option>
+                        </select>
+                    </div>
+
+                    <div class="filter-group">
+                        <label for="prereqFilter">Prerequisite Required</label>
+                        <select id="prereqFilter">
+                            <option value="">All</option>
+                            <option value="true">Yes</option>
+                            <option value="false">No</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="filter-actions">
+                    <button class="btn btn-primary" type="button" onclick="loadCatalog()">Apply Filters</button>
+                    <button class="btn btn-secondary" type="button" onclick="resetFilters()">Reset</button>
+                </div>
+            </div>
+
+            <div class="results-info" id="resultsInfo">Loading courses...</div>
+
+            <div class="catalog-grid" id="catalogGrid"></div>
+        </div>
+    </main>
+</div>
+
+<div th:unless="${studentView}">
+    <header class="site-header">
+        <div class="site-header-inner">
+            <h1 class="site-title">BridgeTrack</h1>
+            <div class="site-subtitle">College Prep &amp; ESL Course Management</div>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <ul>
+            <li><a th:href="@{/}">Home</a></li>
+            <li><a th:href="@{/registration}">Registration</a></li>
+            <li><a th:href="@{/login}">Sign In</a></li>
+            <li><a class="active" th:href="@{/catalog}">Course Catalog</a></li>
+        </ul>
+    </nav>
+
+    <div class="page-container">
+        <div class="page-title">Course Catalog</div>
+        <div class="page-subtitle">
+            Browse available courses and filter by program, modality, category, prerequisites, or search term.
+        </div>
+
+        <div class="filters-card">
+            <div class="filters-grid">
+                <div class="filter-group">
+                    <label for="searchFilter">Search</label>
+                    <input type="text" id="searchFilter" placeholder="Search code, title, or description">
+                </div>
+
+                <div class="filter-group">
+                    <label for="programFilter">Program</label>
+                    <select id="programFilter">
+                        <option value="">All Programs</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label for="modalityFilter">Modality</label>
+                    <select id="modalityFilter">
+                        <option value="">All Modalities</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label for="categoryFilter">Category</label>
+                    <select id="categoryFilter">
+                        <option value="">All Categories</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label for="prereqFilter">Prerequisite Required</label>
+                    <select id="prereqFilter">
+                        <option value="">All</option>
+                        <option value="true">Yes</option>
+                        <option value="false">No</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="filter-actions">
+                <button class="btn btn-primary" type="button" onclick="loadCatalog()">Apply Filters</button>
+                <button class="btn btn-secondary" type="button" onclick="resetFilters()">Reset</button>
+            </div>
+        </div>
+
+        <div class="results-info" id="resultsInfo">Loading courses...</div>
+
+        <div class="catalog-grid" id="catalogGrid"></div>
+    </div>
+</div>
+
+<script th:inline="javascript">
+    async function loadPrograms() {
+        const response = await fetch(/*[[@{/api/catalog/programs}]]*/ '/api/catalog/programs');
+        const programs = await response.json();
+
+        const select = document.getElementById('programFilter');
+        select.innerHTML = '<option value="">All Programs</option>';
+
+        programs.forEach(program => {
+            const option = document.createElement('option');
+            option.value = program.programId;
+            option.textContent = program.programName;
+            select.appendChild(option);
+        });
+    }
+
+    async function loadModalities() {
+        const response = await fetch(/*[[@{/api/catalog/modalities}]]*/ '/api/catalog/modalities');
+        const modalities = await response.json();
+
+        const select = document.getElementById('modalityFilter');
+        select.innerHTML = '<option value="">All Modalities</option>';
+
+        modalities.forEach(modality => {
+            const option = document.createElement('option');
+            option.value = modality;
+            option.textContent = modality;
+            select.appendChild(option);
+        });
+    }
+
+    async function loadCategories() {
+        const response = await fetch(/*[[@{/api/catalog/categories}]]*/ '/api/catalog/categories');
+        const categories = await response.json();
+
+        const select = document.getElementById('categoryFilter');
+        select.innerHTML = '<option value="">All Categories</option>';
+
+        categories.forEach(category => {
+            const option = document.createElement('option');
+            option.value = category;
+            option.textContent = category;
+            select.appendChild(option);
+        });
+    }
+
+    async function loadCatalog() {
+        const programId = document.getElementById('programFilter').value;
+        const modality = document.getElementById('modalityFilter').value;
+        const category = document.getElementById('categoryFilter').value;
+        const prereq = document.getElementById('prereqFilter').value;
+        const search = document.getElementById('searchFilter').value;
+
+        const params = new URLSearchParams();
+
+        if (programId) params.append('programId', programId);
+        if (modality) params.append('modality', modality);
+        if (category) params.append('category', category);
+        if (prereq !== '') params.append('requiresPrereq', prereq);
+        if (search.trim()) params.append('search', search.trim());
+
+        const url = /*[[@{/api/catalog/courses}]]*/ '/api/catalog/courses';
+        const response = await fetch(`${url}?${params.toString()}`);
+        const courses = await response.json();
+
+        const grid = document.getElementById('catalogGrid');
+        const resultsInfo = document.getElementById('resultsInfo');
+
+        resultsInfo.textContent = `${courses.length} course(s) found`;
+
+        if (courses.length === 0) {
+            grid.innerHTML = `
+                <div class="empty-state">
+                    No courses matched your filters.
+                </div>
+            `;
+            return;
+        }
+
+        grid.innerHTML = courses.map(course => `
+            <div class="course-card">
+                <div class="course-code">${course.courseCode ?? ''}</div>
+                <h3 class="course-name">${course.courseName ?? ''}</h3>
+                <div class="course-description">${course.description ?? 'No description available.'}</div>
+
+                <div class="course-meta">
+                    ${course.programName ? `<span class="tag">${course.programName}</span>` : ''}
+                    ${course.modality ? `<span class="tag">${course.modality}</span>` : ''}
+                    ${course.category ? `<span class="tag">${course.category}</span>` : ''}
+                    <span class="tag">${course.requiresPrereq ? 'Prerequisite Required' : 'No Prerequisite'}</span>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    function resetFilters() {
+        document.getElementById('searchFilter').value = '';
+        document.getElementById('programFilter').value = '';
+        document.getElementById('modalityFilter').value = '';
+        document.getElementById('categoryFilter').value = '';
+        document.getElementById('prereqFilter').value = '';
+        loadCatalog();
+    }
+
+    document.addEventListener('DOMContentLoaded', async () => {
+        await loadPrograms();
+        await loadModalities();
+        await loadCategories();
+        await loadCatalog();
+
+        document.getElementById('searchFilter').addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                loadCatalog();
+            }
+        });
+    });
+</script>
+</body>
+</html>

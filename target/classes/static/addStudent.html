@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BridgeTrack | Add Student</title>
+    <link rel="stylesheet" href="bridgetrack.css" />
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f1f3f6;
+            color: #333;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .admin-sidebar {
+            width: 280px;
+            background: #ffffff;
+            border-right: 1px solid #d6dce5;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .admin-sidebar-top {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .admin-logo {
+            padding: 16px 20px;
+            border-bottom: 1px solid #e6ebf1;
+            margin-bottom: 8px;
+        }
+
+        .admin-logo img {
+            width: 200px;
+            height: auto;
+            display: block;
+        }
+
+        .admin-sidebar h2 {
+            padding: 0 24px 12px;
+            margin: 0;
+            font-size: 18px;
+            color: #1c3557;
+        }
+
+        .admin-sidebar ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .admin-sidebar li {
+            margin: 0;
+            padding: 0;
+        }
+
+        .admin-sidebar a {
+            display: block;
+            padding: 12px 24px;
+            color: #2d3d65;
+            text-decoration: none;
+            font-size: 15px;
+            border-left: 4px solid transparent;
+        }
+
+        .admin-sidebar a:hover,
+        .admin-sidebar a.active {
+            background: #eef4fa;
+            color: #1c3557;
+            font-weight: bold;
+            border-left: 4px solid #1a5ea8;
+        }
+
+        .admin-sidebar-bottom {
+            padding: 18px 24px;
+            border-top: 1px solid #e6ebf1;
+        }
+
+        .admin-sidebar-bottom a {
+            padding: 0;
+            border-left: none;
+            font-weight: bold;
+        }
+
+        .admin-sidebar-bottom a:hover {
+            background: transparent;
+            color: #1a5ea8;
+        }
+
+        .admin-main {
+            flex: 1;
+            padding: 28px 24px;
+            background: #f1f3f6;
+        }
+
+        .page-container {
+            max-width: 1150px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .page-header h2 {
+            margin: 0;
+            color: #1a3a5c;
+        }
+
+        .card {
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            padding: 20px;
+            margin-bottom: 24px;
+        }
+
+        .card h3 {
+            margin-top: 0;
+            color: #1a3a5c;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+            margin-bottom: 18px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            font-size: 14px;
+            margin-bottom: 6px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group select {
+            padding: 10px 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .btn,
+        .btn-secondary {
+            display: inline-block;
+            padding: 10px 16px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 14px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn {
+            background: #1a3a5c;
+            color: white;
+        }
+
+        .btn:hover {
+            background: #16324f;
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+
+        .btn-row {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .status-message {
+            margin-top: 12px;
+            font-size: 14px;
+            color: #444;
+        }
+
+        .help-text {
+            margin: 6px 0 0;
+            font-size: 12px;
+            color: #666;
+        }
+
+        @media (max-width: 900px) {
+            body {
+                flex-direction: column;
+            }
+
+            .admin-sidebar {
+                width: 100%;
+            }
+
+            .admin-main {
+                padding: 20px 16px;
+            }
+
+            .page-container {
+                padding: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <aside class="admin-sidebar">
+        <div class="admin-sidebar-top">
+            <div class="admin-logo">
+                <img src="/bridgetrack-logo.jpeg" alt="BridgeTrack Logo">
+            </div>
+
+            <h2>Add Student</h2>
+
+            <ul>
+                <li><a href="/admindashboard">Dashboard</a></li>
+                <li><a href="TermManagement.html">Terms</a></li>
+                <li><a href="programmanagement.html">Programs</a></li>
+                <li><a href="coursemanagement.html">Courses</a></li>
+                <li><a href="sectionmanagement.html">Sections</a></li>
+                <li><a class="active" href="students.html">Students</a></li>
+                <li><a href="/admin/instructors">Instructors</a></li>
+                <li><a href="/admin/attendance-reports">Attendance Reports</a></li>
+            </ul>
+        </div>
+
+        <div class="admin-sidebar-bottom">
+            <a href="/logout">Logout</a>
+        </div>
+    </aside>
+
+    <main class="admin-main">
+        <div class="page-container">
+            <div class="page-header">
+                <h2>Add Student</h2>
+                <div class="btn-row">
+                    <a href="students.html" class="btn-secondary">Back to Students</a>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>Student Information</h3>
+
+                <form id="studentForm">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="firstName">First Name *</label>
+                            <input type="text" id="firstName" placeholder="John" required />
+                        </div>
+
+                        <div class="form-group">
+                            <label for="lastName">Last Name *</label>
+                            <input type="text" id="lastName" placeholder="Smith" required />
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">Email *</label>
+                            <input type="email" id="email" placeholder="john.smith@email.com" required />
+                            <p class="help-text">Email will be used as the student's username.</p>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="phone">Phone</label>
+                            <input type="text" id="phone" placeholder="555-555-5555" />
+                        </div>
+
+                        <div class="form-group">
+                            <label for="birthDate">Birthdate</label>
+                            <input type="date" id="birthDate" />
+                        </div>
+
+                        <div class="form-group">
+                            <label for="status">Status</label>
+                            <select id="status">
+                                <option value="">Select Status</option>
+                                <option value="Active">Active</option>
+                                <option value="Inactive">Inactive</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="btn-row">
+                        <button type="submit" class="btn">Create Student</button>
+                        <a class="btn-secondary" href="students.html">Cancel</a>
+                    </div>
+                </form>
+
+                <p id="formStatus" class="status-message"></p>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        document.getElementById("studentForm").addEventListener("submit", async function (e) {
+            e.preventDefault();
+
+            const firstName = document.getElementById("firstName").value.trim();
+            const lastName = document.getElementById("lastName").value.trim();
+            const email = document.getElementById("email").value.trim();
+            const phone = document.getElementById("phone").value.trim();
+            const birthDate = document.getElementById("birthDate").value;
+            const status = document.getElementById("status").value;
+
+            const formStatus = document.getElementById("formStatus");
+            formStatus.textContent = "";
+
+            if (!firstName || !lastName || !email) {
+                formStatus.textContent = "Please fill out First Name, Last Name, and Email.";
+                return;
+            }
+
+            const payload = {
+                firstName,
+                lastName,
+                email,
+                phone: phone || null,
+                birthDate: birthDate || null,
+                status: status || null
+            };
+
+            try {
+                const resp = await fetch("/students", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!resp.ok) {
+                    const text = await resp.text().catch(() => "");
+                    formStatus.textContent = "Failed to create student. " + (text || ("Status: " + resp.status));
+                    return;
+                }
+
+                formStatus.textContent = "Student created successfully. Returning to Students...";
+                setTimeout(() => {
+                    window.location.href = "students.html";
+                }, 700);
+
+            } catch (err) {
+                console.error(err);
+                formStatus.textContent = "Failed to create student: " + err.message;
+            }
+        });
+    </script>
+</body>
+</html>

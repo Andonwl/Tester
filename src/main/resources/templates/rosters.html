@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BridgeTrack | Rosters</title>
+    <link rel="stylesheet" th:href="@{/bridgetrack.css}">
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f3f5f8;
+            color: #1f2d3d;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .admin-sidebar {
+            width: 280px;
+            background: #ffffff;
+            border-right: 1px solid #d6dce5;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .admin-sidebar-top {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .admin-logo {
+            padding: 16px 20px;
+            border-bottom: 1px solid #e6ebf1;
+            margin-bottom: 8px;
+        }
+
+        .admin-logo img {
+            width: 200px;
+            display: block;
+        }
+
+        .admin-sidebar h2 {
+            padding: 0 24px 12px;
+            margin: 0;
+            font-size: 18px;
+            color: #1c3557;
+        }
+
+        .admin-sidebar ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .admin-sidebar a {
+            display: block;
+            padding: 12px 24px;
+            color: #2d3d65;
+            text-decoration: none;
+            border-left: 4px solid transparent;
+        }
+
+        .admin-sidebar a:hover,
+        .admin-sidebar a.active {
+            background: #eef4fa;
+            font-weight: bold;
+            border-left: 4px solid #1a5ea8;
+        }
+
+        .admin-sidebar-bottom {
+            padding: 18px 24px;
+            border-top: 1px solid #e6ebf1;
+        }
+
+        .admin-main {
+            flex: 1;
+            padding: 30px 24px 34px;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 18px;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .page-header h2 {
+            margin: 0;
+            color: #17395c;
+            font-size: 28px;
+        }
+
+        .btn,
+        .btn-secondary {
+            min-width: 120px;
+            height: 42px;
+            padding: 0 16px;
+            font-weight: bold;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 6px;
+            box-sizing: border-box;
+            border: none;
+            white-space: nowrap;
+            text-decoration: none;
+        }
+
+        .btn {
+            background: #17395c;
+            color: #fff;
+        }
+
+        .btn-secondary {
+            background: #7a8088;
+            color: #fff;
+        }
+
+        .card {
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            margin-bottom: 18px;
+            overflow: hidden;
+        }
+
+        .card-body {
+            padding: 18px;
+        }
+
+        .selected-section-card {
+            border-top: 4px solid #17395c;
+        }
+
+        .selected-section-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr 0.8fr 1fr;
+            gap: 14px;
+        }
+
+        .selected-section-box {
+            border: 1px solid #d9e1eb;
+            border-radius: 8px;
+            padding: 16px 18px;
+            min-height: 82px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .selected-section-label {
+            font-size: 12px;
+            color: #6f7f8f;
+            margin-bottom: 8px;
+        }
+
+        .selected-section-value {
+            font-size: 18px;
+            font-weight: bold;
+            color: #17395c;
+        }
+
+        .filters-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) auto auto auto;
+            gap: 12px;
+            align-items: end;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            font-weight: bold;
+            margin-bottom: 6px;
+            color: #17395c;
+        }
+
+        .form-group select {
+            height: 42px;
+            padding: 0 12px;
+            border-radius: 6px;
+            border: 1px solid #cfd8e3;
+            width: 100%;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: fixed;
+        }
+
+        thead {
+            background: #17395c;
+            color: #fff;
+        }
+
+        th, td {
+            padding: 12px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        th:nth-child(4), td:nth-child(4) { width: 280px; }
+        th:nth-child(5), td:nth-child(5) { width: 150px; }
+
+        .empty-state {
+            text-align: center;
+            padding: 20px;
+            color: #7a8794;
+        }
+    </style>
+</head>
+
+<body>
+
+<aside class="admin-sidebar">
+    <div class="admin-sidebar-top">
+        <div class="admin-logo">
+            <img src="/bridgetrack-logo.jpeg">
+        </div>
+
+        <h2>Instructor Dashboard</h2>
+
+		
+		          <li><a href="/instructor/dashboard">Dashboard</a></li>
+		          <li><a class="active" href="/instructor/rosters">View Rosters</a></li>
+		          <li><a href="/instructor/attendance/history">Attendance History</a></li>
+		          <li><a href="/instructor/attendance">Record Attendance</a></li>
+		      
+    </div>
+
+    <div class="admin-sidebar-bottom">
+        <a href="/logout">Logout</a>
+    </div>
+</aside>
+
+<main class="admin-main">
+
+    <div class="page-header">
+        <h2>Class Rosters</h2>
+        <a href="/instructor/dashboard" class="btn-secondary">Back to Dashboard</a>
+    </div>
+
+    <!-- TOP SUMMARY (ONLY ONE NOW) -->
+    <div class="card selected-section-card" th:if="${selectedSection != null}">
+        <div class="card-body">
+            <div class="selected-section-grid">
+                <div class="selected-section-box">
+                    <div class="selected-section-label">Selected Section</div>
+                    <div class="selected-section-value" th:text="${selectedSection.courseCode + ' - Section ' + selectedSection.sectionId}"></div>
+                </div>
+
+                <div class="selected-section-box">
+                    <div class="selected-section-label">Term</div>
+                    <div class="selected-section-value" th:text="${selectedSection.termName}"></div>
+                </div>
+
+                <div class="selected-section-box">
+                    <div class="selected-section-label">Students</div>
+                    <div class="selected-section-value" th:text="${studentCount != null ? studentCount : 0}"></div>
+                </div>
+
+                <div class="selected-section-box">
+                    <div class="selected-section-label">Course</div>
+                    <div class="selected-section-value" th:text="${selectedSection.courseCode}"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FILTER -->
+    <div class="card">
+        <div class="card-body">
+            <form th:action="@{/instructor/rosters}" method="get">
+                <div class="filters-grid">
+                    <div class="form-group">
+                        <label>Section</label>
+                        <select name="sectionId" required>
+                            <option value="">Select Section</option>
+                            <option th:each="section : ${sectionOptions}"
+                                    th:value="${section.sectionId}"
+                                    th:text="${section.optionLabel}"
+                                    th:selected="${selectedSection != null and selectedSection.sectionId == section.sectionId}">
+                            </option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="btn">Load Roster</button>
+                    <a href="/instructor/rosters" class="btn-secondary">Clear</a>
+
+					<a th:if="${selectedSection != null}"
+					   th:href="@{/instructor/rosters/export/pdf(sectionId=${selectedSection.sectionId})}"
+					   class="btn-secondary">
+					    Download PDF
+					</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- TABLE -->
+    <div class="card">
+        <div class="card-body">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>First</th>
+                        <th>Last</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+
+                <tbody th:if="${rosterStudents != null}">
+                    <tr th:each="student : ${rosterStudents}">
+                        <td th:text="${student.studentId}"></td>
+                        <td th:text="${student.firstName}"></td>
+                        <td th:text="${student.lastName}"></td>
+                        <td th:text="${student.studentEmail}"></td>
+                        <td th:text="${student.phone}"></td>
+                        <td th:text="${student.status}"></td>
+                    </tr>
+                </tbody>
+
+                <tbody th:if="${rosterStudents == null}">
+                    <tr>
+                        <td colspan="6" class="empty-state">Select a section to load roster</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</main>
+
+</body>
+</html>

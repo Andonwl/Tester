@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BridgeTrack — Class Schedule</title>
+  <link rel="stylesheet" href="bridgetrack.css" />
+  <style>
+    .create-page .navbar {
+      background: #17395c;
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 24px;
+      border-top: 4px solid #e58a2c;
+    }
+
+    .create-page .navbar-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 24px;
+    }
+
+    .create-page .navbar-brand img {
+      height: 54px;
+      width: auto;
+      display: block;
+    }
+
+    .create-page .navbar-brand span {
+      color: #11b7d4;
+    }
+
+    .create-page .navbar-links {
+      list-style: none;
+      display: flex;
+      gap: 24px;
+      margin: 0;
+      padding: 0;
+    }
+
+    .create-page .navbar-links a {
+      color: white;
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    .create-page .navbar-links a:hover {
+      text-decoration: underline;
+    }
+
+    .create-page .page-header {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 28px 24px 12px;
+    }
+
+    .create-page .page-header h1 {
+      margin: 0 0 8px;
+      font-size: 30px;
+      font-weight: 600;
+      color: #1c3557;
+    }
+
+    .create-page .page-header p {
+      margin: 0;
+      font-size: 14px;
+      color: #666;
+    }
+
+    .create-page .main-wrap {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 0 24px 48px;
+    }
+
+    .create-page .card {
+      background: #fff;
+      border: 1px solid #d6dce5;
+      border-radius: 6px;
+      overflow: hidden;
+      margin-bottom: 20px;
+    }
+
+    .create-page .card-header {
+      background: #dfe7f2;
+      border-bottom: 1px solid #d6dce5;
+      padding: 14px 18px;
+    }
+
+    .create-page .card-header h2 {
+      margin: 0;
+      font-size: 18px;
+      color: #1c3557;
+    }
+
+    .create-page .card-body {
+      padding: 20px 18px;
+    }
+
+    .create-page .back-link {
+      display: inline-block;
+      margin-bottom: 18px;
+      color: #1a5ea8;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    .create-page .back-link:hover {
+      text-decoration: underline;
+    }
+
+    .create-page .view-tabs {
+      display: flex;
+      gap: 0;
+      margin: 18px 0 20px;
+      border-bottom: 1px solid #cfd7e3;
+    }
+
+    .create-page .tab {
+      padding: 12px 18px;
+      border: 1px solid #cfd7e3;
+      border-bottom: none;
+      background: #f7f9fc;
+      color: #49627d;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+      border-top-left-radius: 4px;
+      border-top-right-radius: 4px;
+      margin-right: 6px;
+    }
+
+    .create-page .tab.active {
+      background: white;
+      color: #1c3557;
+      position: relative;
+      top: 1px;
+    }
+
+    .create-page .course-list {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .create-page .course-item {
+      border: 1px solid #d6dce5;
+      border-radius: 6px;
+      padding: 18px 20px;
+      background: #fff;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+    }
+
+    .create-page .course-code {
+      display: inline-block;
+      color: #1a5ea8;
+      font-size: 17px;
+      font-weight: bold;
+      text-decoration: underline;
+      margin-bottom: 8px;
+    }
+
+    .create-page .course-title {
+      margin: 0 0 10px;
+      font-size: 18px;
+      font-weight: 700;
+      color: #222;
+    }
+
+    .create-page .course-meta {
+      margin: 0;
+      line-height: 1.6;
+      color: #666;
+      font-size: 15px;
+    }
+
+    .create-page .course-badge {
+      display: inline-block;
+      margin-top: 12px;
+      padding: 4px 10px;
+      border: 1px solid #4f91d1;
+      color: #1a5ea8;
+      border-radius: 16px;
+      font-size: 13px;
+      font-weight: 600;
+      background: #f7fbff;
+    }
+
+    .create-page .site-footer {
+      background: #17395c;
+      color: white;
+      text-align: center;
+      font-size: 12px;
+      padding: 16px 12px;
+      margin-top: 18px;
+    }
+
+    .create-page .site-footer a {
+      color: white;
+      text-decoration: none;
+      margin: 0 8px;
+    }
+
+    .create-page .site-footer a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 768px) {
+      .create-page .navbar {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+      }
+
+      .create-page .navbar-links {
+        flex-wrap: wrap;
+        gap: 14px;
+      }
+
+      .create-page .page-header,
+      .create-page .main-wrap {
+        padding-left: 16px;
+        padding-right: 16px;
+      }
+
+      .create-page .view-tabs {
+        flex-wrap: wrap;
+      }
+    }
+  </style>
+</head>
+<body class="create-page">
+
+  <nav class="navbar">
+    <a href="#" class="navbar-brand">
+      <img src="/bridgetrack-logo.jpeg" alt="BridgeTrack Logo">
+      <span>BridgeTrack</span>
+    </a>
+    <ul class="navbar-links">
+      <li><a href="#">Explore</a></li>
+      <li><a href="#">Planner</a></li>
+      <li><a href="#">Resources</a></li>
+      <li><a href="#">Account</a></li>
+    </ul>
+  </nav>
+
+  <div class="page-header">
+    <a href="#" class="back-link">← Go back</a>
+    <h1>Courses: 2026 Spring Full Term</h1>
+    <p>View your registered courses for the current term.</p>
+  </div>
+
+  <main class="main-wrap">
+    <div class="card">
+      <div class="card-body">
+
+        <div class="view-tabs">
+          <a href="#" class="tab active">List View</a>
+          <a href="#" class="tab">Schedule View</a>
+        </div>
+
+        <div class="course-list">
+          <div class="course-item">
+            <a href="#" class="course-code">CPT-275</a>
+            <h2 class="course-title">Computer Technology Senior Project</h2>
+            <p class="course-meta">
+              Section W01<br>
+              WEB<br>
+              Online
+            </p>
+            <span class="course-badge">INT</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <a href="#">Privacy Policy</a>
+    <a href="#">Terms of Service</a>
+    <a href="#">Contact</a>
+    <div style="margin-top:8px">© 2025 BridgeTrack. All rights reserved.</div>
+  </footer>
+
+</body>
+</html>

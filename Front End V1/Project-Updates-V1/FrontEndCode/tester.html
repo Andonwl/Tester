@@ -1,0 +1,439 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>BridgeTrack API Tester</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    fieldset { padding: 12px; }
+    input { width: 100%; padding: 6px; margin: 4px 0 10px; }
+    button { padding: 8px 12px; margin-right: 8px; margin-top: 6px; }
+    pre { background: #111; color: #0f0; padding: 12px; overflow: auto; max-height: 350px; }
+    .full { grid-column: 1 / -1; }
+  </style>
+</head>
+
+<body>
+  <h1>BridgeTrack Testing</h1>
+  <p>Runs against <code>http://localhost:8080</code></p>
+
+  <div class="grid">
+    
+    <fieldset>
+      <legend>Create Student</legend>
+      <label>First Name</label>
+      <input id="sFirst" value="Carly" />
+      <label>Last Name</label>
+      <input id="sLast" value="Strickland" />
+      <label>Email</label>
+      <input id="sEmail" value="carly_strickand@example.com" />
+      <label>Phone</label>
+      <input id="sPhone" value="555-555-1111" />
+      <label>Birth Date (YYYY-MM-DD)</label>
+      <input id="sBirth" value="1998-01-01" />
+      <button onclick="createStudent()">POST /students</button>
+      <button onclick="listStudents()">GET /students</button>
+    </fieldset>
+
+   
+    <fieldset>
+      <legend>Create Program</legend>
+      <label>Program Name</label>
+      <input id="pName" value="CPT" />
+      <label>Description</label>
+      <input id="pDesc" value="AAS in Computer Technology" />
+      <label>Active (true/false)</label>
+      <input id="pActive" value="true" />
+      <button onclick="createProgram()">POST /programs</button>
+      <button onclick="listPrograms()">GET /programs</button>
+    </fieldset>
+
+    
+    <fieldset>
+      <legend>Create Course</legend>
+	  <label>Program ID</label>
+	  <input id="cProgramId" value="1" />
+      <label>Course Code</label>
+      <input id="cCode" value="CPT-167" />
+      <label>Course Name</label>
+      <input id="cName" value="Intro to Programming Logic" />
+      <label>Description</label>
+      <input id="cDesc" value="Fundamental programming concepts" />
+      <label>Category</label>
+      <input id="cCat" value="CPT" />
+      <button onclick="createCourse()">POST /courses</button>
+      <button onclick="listCourses()">GET /courses</button>
+    </fieldset>
+
+    
+    <fieldset>
+      <legend>Create Term</legend>
+      <label>Term Name</label>
+      <input id="tName" value="Spring 2026" />
+      <label>Term Code (e.g., 20261)</label>
+      <input id="tCode" value="20261" />
+      <label>Start Date (YYYY-MM-DD)</label>
+      <input id="tStart" value="2026-01-12" />
+      <label>End Date (YYYY-MM-DD)</label>
+      <input id="tEnd" value="2026-05-02" />
+      <label>Active (true/false)</label>
+      <input id="tActive" value="true" />
+      <button onclick="createTerm()">POST /terms</button>
+      <button onclick="listTerms()">GET /terms</button>
+    </fieldset>
+
+    
+    <fieldset class="full">
+      <legend>Find Course ID by Course Code</legend>
+      <label>Course Code (ex: CPT-167)</label>
+      <input id="findCourseCode" value="CPT-167" />
+      <button onclick="findCourseId()">Find courseId</button>
+      <p><strong>Result:</strong> <span id="findCourseResult">---</span></p>
+      <button onclick="fillPrereqCourse()">Use as Course ID (requires something)</button>
+      <button onclick="fillPrereqPrereq()">Use as Prereq Course ID (required course)</button>
+    </fieldset>
+
+    
+    <fieldset>
+      <legend>Create Section</legend>
+      <label>Course ID</label>
+      <input id="secCourse" value="1" />
+      <label>Term ID</label>
+      <input id="secTerm" value="1" />
+      <label>Instructor ID</label>
+      <input id="secInstr" value="9" />
+      <label>Days Of Week</label>
+      <input id="secDays" value="MWF" />
+      <label>Start Time (HH:MM:SS)</label>
+      <input id="secStart" value="09:30:00" />
+      <label>End Time (HH:MM:SS)</label>
+      <input id="secEnd" value="10:45:00" />
+      <label>Capacity</label>
+      <input id="secCap" value="25" />
+      <button onclick="createSection()">POST /sections</button>
+      <button onclick="listSections()">GET /sections</button>
+    </fieldset>
+
+   
+    <fieldset class="full">
+      <legend>Prerequisites</legend>
+      <label>Course ID (the course that requires something)</label>
+      <input id="prCourseId" value="2" />
+      <label>Prerequisite Course ID (the required course)</label>
+      <input id="prPrereqId" value="1" />
+      <button onclick="addPrerequisite()">POST /prerequisites</button>
+      <button onclick="listPrereqsForCourse()">GET /prerequisites/course/{courseId}</button>
+
+      <label>Prerequisite Link ID (for delete)</label>
+      <input id="prLinkId" value="1" />
+      <button onclick="deletePrerequisite()">DELETE /prerequisites/{id}</button>
+    </fieldset>
+
+    
+    <fieldset class="full">
+      <legend>Enroll Student</legend>
+      <label>Student ID</label>
+      <input id="enStudentId" value="1" />
+      <label>Section ID</label>
+      <input id="enSectionId" value="1" />
+      <button onclick="createEnrollment()">POST /enrollments</button>
+      <button onclick="listEnrollments()">GET /enrollments</button>
+    </fieldset>
+	
+	<fieldset class="full">
+	  <legend>Enrollment Status (for prereq testing)</legend>
+
+	  <label>Enrollment ID</label>
+	  <input id="enrollId" value="1" />
+
+	  <label>New Status (ex: COMPLETED)</label>
+	  <input id="enrollStatus" value="COMPLETED" />
+
+	  <button onclick="updateEnrollmentStatus()">PATCH /enrollments/{id}/status</button>
+	</fieldset>
+	
+	<fieldset class="full">
+	  <legend>Prereq Scenario Runner (end-to-end)</legend>
+
+	  <label>Student ID</label>
+	  <input id="scStudentId" value="1" />
+
+	  <label>Target Section ID (the course that REQUIRES prereq)</label>
+	  <input id="scTargetSectionId" value="2" />
+
+	  <label>Prereq Section ID (the REQUIRED course section)</label>
+	  <input id="scPrereqSectionId" value="1" />
+
+	  <label>Target Course ID</label>
+	  <input id="scTargetCourseId" value="2" />
+
+	  <label>Prereq Course ID</label>
+	  <input id="scPrereqCourseId" value="1" />
+
+	  <button onclick="runPrereqScenario()">Run Scenario</button>
+	</fieldset>
+
+   
+    <fieldset class="full">
+      <legend>Output</legend>
+      <pre id="out">(results will show here)</pre>
+    </fieldset>
+  </div>
+
+  <script>
+    const base = "http://localhost:8080";
+
+    const out = (obj) => {
+      const el = document.getElementById("out");
+      if (!el) {
+        console.error("Missing <pre id='out'> element on page.");
+        return;
+      }
+      el.textContent = typeof obj === "string" ? obj : JSON.stringify(obj, null, 2);
+    };
+
+	async function request(path, options = {}) {
+	  try {
+	    const res = await fetch(base + path, {
+	      credentials: "include", // ✅ send session cookie after admin login
+	      headers: { "Content-Type": "application/json", ...(options.headers || {}) },
+	      ...options
+	    });
+
+	    const text = await res.text();
+	    let data;
+	    try { data = text ? JSON.parse(text) : null; }
+	    catch { data = text; }
+
+	    if (!res.ok) {
+	      out({ error: true, status: res.status, statusText: res.statusText, response: data });
+	      return;
+	    }
+	    out(data);
+	  } catch (e) {
+	    out({ error: true, message: e.message });
+	  }
+	}
+
+    
+    function createStudent() {
+      const body = {
+        firstName: document.getElementById("sFirst").value,
+        lastName: document.getElementById("sLast").value,
+        email: document.getElementById("sEmail").value,
+        phone: document.getElementById("sPhone").value,
+        birthDate: document.getElementById("sBirth").value
+      };
+      request("/students", { method: "POST", body: JSON.stringify(body) });
+    }
+    function listStudents() { request("/students"); }
+
+    
+    function createProgram() {
+      const body = {
+        programName: document.getElementById("pName").value,
+        description: document.getElementById("pDesc").value,
+        active: document.getElementById("pActive").value.toLowerCase() === "true"
+      };
+      request("/programs", { method: "POST", body: JSON.stringify(body) });
+    }
+    function listPrograms() { request("/programs"); }
+
+	function createCourse() {
+	  const body = {
+	    programId: Number(document.getElementById("cProgramId").value),
+	    courseCode: document.getElementById("cCode").value,
+	    courseName: document.getElementById("cName").value,
+	    description: document.getElementById("cDesc").value,
+	    category: document.getElementById("cCat").value
+	  };
+
+	  request("/courses", { method: "POST", body: JSON.stringify(body) });
+	}
+
+	function listCourses() {
+		request("/courses");
+	}
+
+    
+    function createTerm() {
+      const body = {
+        termName: document.getElementById("tName").value,
+        termCode: Number(document.getElementById("tCode").value),
+        startDate: document.getElementById("tStart").value,
+        endDate: document.getElementById("tEnd").value,
+        active: document.getElementById("tActive").value.toLowerCase() === "true"
+      };
+      request("/terms", { method: "POST", body: JSON.stringify(body) });
+    }
+    function listTerms() { request("/terms"); }
+
+    
+    function createSection() {
+      const body = {
+        courseId: Number(document.getElementById("secCourse").value),
+        termId: Number(document.getElementById("secTerm").value),
+        instructorId: Number(document.getElementById("secInstr").value),
+        daysOfWeek: document.getElementById("secDays").value,
+        startTime: document.getElementById("secStart").value,
+        endTime: document.getElementById("secEnd").value,
+        capacity: Number(document.getElementById("secCap").value)
+      };
+      request("/sections", { method: "POST", body: JSON.stringify(body) });
+    }
+    function listSections() { request("/sections"); }
+
+    
+    function addPrerequisite() {
+      const body = {
+        courseId: Number(document.getElementById("prCourseId").value),
+        prerequisiteCourseId: Number(document.getElementById("prPrereqId").value)
+      };
+      request("/prerequisites", { method: "POST", body: JSON.stringify(body) });
+    }
+
+    function listPrereqsForCourse() {
+      const courseId = Number(document.getElementById("prCourseId").value);
+      request(`/prerequisites/course/${courseId}`);
+    }
+
+    function deletePrerequisite() {
+      const id = Number(document.getElementById("prLinkId").value);
+      request(`/prerequisites/${id}`, { method: "DELETE" });
+    }
+
+    
+    function createEnrollment() {
+      const body = {
+        studentId: Number(document.getElementById("enStudentId").value),
+        sectionId: Number(document.getElementById("enSectionId").value)
+      };
+      request("/enrollments", { method: "POST", body: JSON.stringify(body) });
+    }
+    function listEnrollments() { request("/enrollments"); }
+
+    
+    let lastFoundCourseId = null;
+
+    async function findCourseId() {
+      const code = document.getElementById("findCourseCode").value.trim();
+      if (!code) {
+        document.getElementById("findCourseResult").textContent = "Enter a course code.";
+        return;
+      }
+
+      try {
+        const res = await fetch(base + "/courses");
+        const courses = await res.json();
+
+        const match = courses.find(c =>
+          (c.courseCode || "").toLowerCase() === code.toLowerCase()
+        );
+
+        if (!match) {
+          lastFoundCourseId = null;
+          document.getElementById("findCourseResult").textContent =
+            "Not found. Click GET /courses and confirm the courseCode exists.";
+          return;
+        }
+
+        lastFoundCourseId = match.courseId;
+        document.getElementById("findCourseResult").textContent =
+          `courseId = ${match.courseId} (${match.courseCode}: ${match.courseName || ""})`;
+      } catch (e) {
+        lastFoundCourseId = null;
+        document.getElementById("findCourseResult").textContent =
+          "Error fetching /courses: " + e.message;
+      }
+    }
+
+    function fillPrereqCourse() {
+      if (lastFoundCourseId == null) return alert("Find a courseId first.");
+      document.getElementById("prCourseId").value = lastFoundCourseId;
+    }
+
+    function fillPrereqPrereq() {
+      if (lastFoundCourseId == null) return alert("Find a courseId first.");
+      document.getElementById("prPrereqId").value = lastFoundCourseId;
+    }
+	
+	function updateEnrollmentStatus() {
+	  const id = Number(document.getElementById("enrollId").value);
+	  const status = document.getElementById("enrollStatus").value.trim();
+
+	  
+	  
+	  const body = { status };
+	  request(`/enrollments/${id}/status`, { method: "PATCH", body: JSON.stringify(body) });
+	}
+	
+	async function raw(path, options = {}) {
+	  const res = await fetch(base + path, {
+	    credentials: "include",
+	    headers: { "Content-Type": "application/json", ...(options.headers || {}) },
+	    ...options
+	  });
+
+	  const text = await res.text();
+	  let data;
+	  try { data = text ? JSON.parse(text) : null; } catch { data = text; }
+	  return { ok: res.ok, status: res.status, data };
+	}
+
+	async function runPrereqScenario() {
+	  const studentId = Number(document.getElementById("scStudentId").value);
+
+	  const targetSectionId = Number(document.getElementById("scTargetSectionId").value);
+	  const prereqSectionId = Number(document.getElementById("scPrereqSectionId").value);
+
+	  const targetCourseId = Number(document.getElementById("scTargetCourseId").value);
+	  const prereqCourseId = Number(document.getElementById("scPrereqCourseId").value);
+
+	  const log = [];
+
+	  
+	  let r = await raw("/prerequisites", {
+	    method: "POST",
+	    body: JSON.stringify({ courseId: targetCourseId, prerequisiteCourseId: prereqCourseId })
+	  });
+	  log.push({ step: "Add prerequisite", status: r.status, response: r.data });
+
+	 
+	  r = await raw("/enrollments", {
+	    method: "POST",
+	    body: JSON.stringify({ studentId, sectionId: prereqSectionId })
+	  });
+	  log.push({ step: "Enroll in prereq section", status: r.status, response: r.data });
+
+	  
+	  const prereqEnrollmentId = r?.data?.enrollmentId ?? r?.data?.id ?? null;
+
+	  
+	  if (prereqEnrollmentId != null) {
+	    r = await raw(`/enrollments/${prereqEnrollmentId}/status`, {
+	      method: "PATCH",
+	      body: JSON.stringify({ status: "COMPLETED" })
+	    });
+	    log.push({ step: "Mark prereq enrollment COMPLETED", status: r.status, response: r.data });
+	  } else {
+	    log.push({
+	      step: "Mark prereq enrollment COMPLETED",
+	      status: "SKIPPED",
+	      response: "Could not find enrollmentId from POST /enrollments response."
+	    });
+	  }
+
+	  
+	  r = await raw("/enrollments", {
+	    method: "POST",
+	    body: JSON.stringify({ studentId, sectionId: targetSectionId })
+	  });
+	  log.push({ step: "Enroll in target section", status: r.status, response: r.data });
+
+	  out(log);
+	}
+  </script>
+</body>
+</html>
+

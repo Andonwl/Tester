@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>BridgeTrack - Home</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="BridgeTrack Registration Platform">
+    <link href="/bridgetrack.css" rel="stylesheet">
+</head>
+<body>
+<header class="home">
+    <h1><a href="homepage.html">BridgeTrack</a></h1>
+    <p>College Prep & ESL Course Management</p>
+</header>
+<nav>
+	<ul>
+	    <li><a th:href="@{/}">Home</a></li>
+	    <li><a th:href="@{/registration}">Registration</a></li>
+	    <li><a th:href="@{/login}">Sign In</a></li>
+	    <li><a th:href="@{/catalog}">Course Catalog</a></li>
+	</ul>
+</nav>
+<main>
+    <section class="hero">
+        <h2>Welcome to BridgeTrack</h2>
+        <p>Register once. Plan your terms. Track attendance automatically.</p>
+        <a href="/registration" class="btn">Get Started</a>
+    </section>
+    
+    <section class="features">
+        <div class="feature">
+            <h3>Two-Term Planning</h3>
+            <p>Lay out two term semesters with automatic prerequisite checking.</p>
+        </div>
+        <div class="feature">
+            <h3>No Conflicts</h3>
+            <p>Visual conflict detection prevents overlapping class selections.</p>
+        </div>
+        <div class="feature">
+            <h3>Real Data</h3>
+            <p>Sections with actual instructors, times, and capacities from database.</p>
+        </div>
+    </section>
+
+</main>
+<footer>
+    <div>
+        <script>
+            document.write("This page was last modified on: " + document.lastModified);
+        </script>
+    </div>
+</footer>
+</body>
+</html>

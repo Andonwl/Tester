@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BridgeTrack | Section Management</title>
+    <link rel="stylesheet" href="bridgetrack.css">
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f1f3f6;
+            color: #333;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .admin-sidebar {
+            width: 280px;
+            background: #ffffff;
+            border-right: 1px solid #d6dce5;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .admin-sidebar-top {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .admin-logo {
+            padding: 16px 20px;
+            border-bottom: 1px solid #e6ebf1;
+            margin-bottom: 8px;
+        }
+
+        .admin-logo img {
+            width: 200px;
+            height: auto;
+            display: block;
+        }
+
+        .admin-sidebar h2 {
+            padding: 0 24px 12px;
+            margin: 0;
+            font-size: 18px;
+            color: #1c3557;
+        }
+
+        .admin-sidebar ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .admin-sidebar li {
+            margin: 0;
+            padding: 0;
+        }
+
+        .admin-sidebar a {
+            display: block;
+            padding: 12px 24px;
+            color: #2d3d65;
+            text-decoration: none;
+            font-size: 15px;
+            border-left: 4px solid transparent;
+        }
+
+        .admin-sidebar a:hover,
+        .admin-sidebar a.active {
+            background: #eef4fa;
+            color: #1c3557;
+            font-weight: bold;
+            border-left: 4px solid #1a5ea8;
+        }
+
+        .admin-sidebar-bottom {
+            padding: 18px 24px;
+            border-top: 1px solid #e6ebf1;
+        }
+
+        .admin-sidebar-bottom a {
+            padding: 0;
+            border-left: none;
+            font-weight: bold;
+        }
+
+        .admin-sidebar-bottom a:hover {
+            background: transparent;
+            color: #1a5ea8;
+        }
+
+        .admin-main {
+            flex: 1;
+            padding: 20px 16px;
+            background: #f1f3f6;
+        }
+
+        .page-container {
+            max-width: 1850px;
+            margin: 0 auto;
+            padding: 0 8px;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .page-header h2 {
+            margin: 0;
+            color: #1a3a5c;
+        }
+
+        .card {
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            padding: 16px;
+            margin-bottom: 24px;
+        }
+
+        .card h3 {
+            margin-top: 0;
+            color: #1a3a5c;
+        }
+
+        .filter-row {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            align-items: end;
+            margin-bottom: 14px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            font-size: 14px;
+            margin-bottom: 6px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group select {
+            padding: 10px 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 14px;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #fff;
+        }
+
+        .table-wrapper {
+            overflow-x: visible;
+        }
+
+        .section-table {
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: fixed;
+        }
+
+        .section-table th,
+        .section-table td {
+            padding: 12px 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+            font-size: 14px;
+            vertical-align: middle;
+        }
+
+        .section-table th {
+            background-color: #1a3a5c;
+            color: white;
+            white-space: nowrap;
+        }
+
+        .section-table tr:nth-child(even) {
+            background-color: #f8fbff;
+        }
+
+        .section-table tr:hover {
+            background-color: #eef5fc;
+        }
+
+        .section-table th:nth-child(1),
+        .section-table td:nth-child(1) {
+            width: 65px;
+        }
+
+        .section-table th:nth-child(2),
+        .section-table td:nth-child(2) {
+            width: 260px;
+        }
+
+        .section-table th:nth-child(3),
+        .section-table td:nth-child(3) {
+            width: 110px;
+        }
+
+        .section-table th:nth-child(4),
+        .section-table td:nth-child(4) {
+            width: 145px;
+        }
+
+        .section-table th:nth-child(5),
+        .section-table td:nth-child(5),
+        .section-table th:nth-child(6),
+        .section-table td:nth-child(6) {
+            width: 105px;
+        }
+
+        .section-table th:nth-child(7),
+        .section-table td:nth-child(7) {
+            width: 125px;
+        }
+
+        .section-table th:nth-child(8),
+        .section-table td:nth-child(8) {
+            width: 150px;
+        }
+
+        .section-table th:nth-child(9),
+        .section-table td:nth-child(9) {
+            width: 210px;
+        }
+
+        .section-table th:nth-child(10),
+        .section-table td:nth-child(10) {
+            width: 95px;
+        }
+
+        .section-table th:nth-child(11),
+        .section-table td:nth-child(11) {
+            width: 220px;
+        }
+
+        .table-input,
+        .table-select {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 8px 10px;
+            border: 1px solid #c9d3df;
+            border-radius: 6px;
+            font-size: 13px;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #fff;
+        }
+
+        .readonly-cell {
+            font-weight: bold;
+            color: #1a3a5c;
+            white-space: normal;
+            word-break: break-word;
+        }
+
+        .btn-row {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .btn,
+        .btn-secondary,
+        .btn-danger,
+        .btn-outline,
+        .btn-small {
+            display: inline-block;
+            padding: 10px 16px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 14px;
+            border: none;
+            cursor: pointer;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .btn {
+            background: #1a3a5c;
+            color: white;
+        }
+
+        .btn:hover {
+            background: #16324f;
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+
+        .btn-danger {
+            background: #b03a2e;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #922b21;
+        }
+
+        .btn-outline {
+            background: #ffffff;
+            color: #1a3a5c;
+            border: 1px solid #1a3a5c;
+        }
+
+        .btn-outline:hover {
+            background: #eef4fa;
+        }
+
+        .btn-small {
+            background: #1a5ea8;
+            color: white;
+            padding: 8px 12px;
+            font-size: 13px;
+        }
+
+        .btn-small:hover {
+            background: #154d88;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .status-message {
+            margin-top: 12px;
+            font-size: 14px;
+            color: #444;
+        }
+
+        .empty-message {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+        }
+
+        @media (max-width: 1500px) {
+            .table-wrapper {
+                overflow-x: auto;
+            }
+
+            .section-table {
+                min-width: 1500px;
+                table-layout: auto;
+            }
+        }
+
+        @media (max-width: 900px) {
+            body {
+                flex-direction: column;
+            }
+
+            .admin-sidebar {
+                width: 100%;
+            }
+
+            .admin-main {
+                padding: 20px 12px;
+            }
+
+            .page-container {
+                padding: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <aside class="admin-sidebar">
+        <div class="admin-sidebar-top">
+            <div class="admin-logo">
+                <img src="/bridgetrack-logo.jpeg" alt="BridgeTrack Logo">
+            </div>
+
+            <h2>Section Management</h2>
+
+            <ul>
+                <li><a href="/admindashboard">Dashboard</a></li>
+                <li><a href="TermManagement.html">Terms</a></li>
+                <li><a href="programmanagement.html">Programs</a></li>
+                <li><a href="coursemanagement.html">Courses</a></li>
+                <li><a class="active" href="sectionmanagement.html">Sections</a></li>
+                <li><a href="students.html">Students</a></li>
+                <li><a href="/admin/instructors">Instructors</a></li>
+                <li><a href="/admin/attendance-reports">Attendance Reports</a></li>
+            </ul>
+        </div>
+
+        <div class="admin-sidebar-bottom">
+            <a href="/logout">Logout</a>
+        </div>
+    </aside>
+
+    <main class="admin-main">
+        <div class="page-container">
+            <div class="page-header">
+                <h2>Section Management</h2>
+                <div class="btn-row">
+                    <a href="/admindashboard" class="btn-secondary">Back to Dashboard</a>
+                    <a href="addSection.html" class="btn">Add Section</a>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>Current Sections</h3>
+
+                <div class="filter-row">
+                    <div class="form-group" style="min-width: 320px;">
+                        <label for="courseFilter">Filter by Course</label>
+                        <select id="courseFilter">
+                            <option value="">All Courses</option>
+                        </select>
+                    </div>
+                    <button type="button" class="btn-secondary" onclick="clearFilters()">Clear Filter</button>
+                </div>
+
+                <div class="table-wrapper">
+                    <table class="section-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Course</th>
+                                <th>Instructor</th>
+                                <th>Meeting Days</th>
+                                <th>Start Time</th>
+                                <th>End Time</th>
+                                <th>Modality</th>
+                                <th>Term</th>
+                                <th>Location</th>
+                                <th>Capacity</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="sectionTableBody">
+                            <tr>
+                                <td colspan="11" class="empty-message">Loading sections...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p id="tableStatus" class="status-message"></p>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        let courses = [];
+        let terms = [];
+        let allSections = [];
+        let editingSectionId = null;
+
+        const modalityLocationOptions = {
+            "In-person": [
+                "Room 101",
+                "Room 102",
+                "Room 201",
+                "Main Campus"
+            ],
+            "Online": [
+                "WebEx"
+            ],
+            "Hybrid": [
+                "Room 101 + WebEx",
+                "Room 102 + WebEx",
+                "Main Campus + WebEx"
+            ],
+            "SOM": [
+                "SOM Building",
+                "SOM Lab 1",
+                "SOM Lab 2"
+            ]
+        };
+
+        function setStatus(elementId, message) {
+            const element = document.getElementById(elementId);
+            if (element) {
+                element.textContent = message || "";
+            }
+        }
+
+        function normalizeTimeValue(timeValue) {
+            if (!timeValue) return null;
+            if (timeValue.length === 5) return `${timeValue}:00`;
+            return timeValue;
+        }
+
+        function buildLocationOptions(selectedModality, selectedLocation = "") {
+            const locations = modalityLocationOptions[selectedModality] || [];
+            let options = '<option value="">Select Location</option>';
+
+            locations.forEach(location => {
+                const selected = location === selectedLocation ? "selected" : "";
+                options += `<option value="${escapeHtml(location)}" ${selected}>${escapeHtml(location)}</option>`;
+            });
+
+            return options;
+        }
+
+        function updateRowLocationOptions(sectionId) {
+            const modalitySelect = document.getElementById(`modality-${sectionId}`);
+            const locationSelect = document.getElementById(`location-${sectionId}`);
+
+            if (!modalitySelect || !locationSelect) {
+                return;
+            }
+
+            const selectedModality = modalitySelect.value;
+            const currentLocation = locationSelect.value;
+
+            locationSelect.innerHTML = buildLocationOptions(selectedModality, currentLocation);
+
+            const validLocations = modalityLocationOptions[selectedModality] || [];
+            if (!validLocations.includes(currentLocation)) {
+                locationSelect.value = "";
+            }
+        }
+
+        async function loadCourses() {
+            const response = await fetch("/api/courses");
+            if (!response.ok) {
+                throw new Error("Failed to load courses.");
+            }
+
+            courses = await response.json();
+
+            const courseFilter = document.getElementById("courseFilter");
+            if (courseFilter) {
+                courseFilter.innerHTML = '<option value="">All Courses</option>';
+            }
+
+            courses.forEach(course => {
+                const label = `${course.courseCode} - ${course.courseName}`;
+
+                if (courseFilter) {
+                    const filterOption = document.createElement("option");
+                    filterOption.value = course.courseId;
+                    filterOption.textContent = label;
+                    courseFilter.appendChild(filterOption);
+                }
+            });
+        }
+
+        async function loadTerms() {
+            const response = await fetch("/terms");
+            if (!response.ok) {
+                throw new Error("Failed to load terms.");
+            }
+
+            terms = await response.json();
+        }
+
+        async function loadSections() {
+            const response = await fetch("/api/sections");
+            if (!response.ok) {
+                throw new Error("Failed to load sections.");
+            }
+
+            allSections = await response.json();
+            renderSections();
+        }
+
+        function getFilteredSections() {
+            const selectedCourseId = document.getElementById("courseFilter")?.value;
+
+            if (!selectedCourseId) {
+                return allSections;
+            }
+
+            return allSections.filter(section =>
+                String(section.course?.courseId ?? "") === String(selectedCourseId)
+            );
+        }
+
+        function renderSections() {
+            const tbody = document.getElementById("sectionTableBody");
+            const visibleSections = getFilteredSections();
+
+            if (!visibleSections.length) {
+                tbody.innerHTML = '<tr><td colspan="11" class="empty-message">No sections found.</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = visibleSections.map(section => {
+                const courseLabel = section.course
+                    ? `${section.course.courseCode} - ${section.course.courseName}`
+                    : "Unknown Course";
+
+                const termOptions = terms.map(term => {
+                    const selected = section.term && term.termId === section.term.termId ? "selected" : "";
+                    return `<option value="${term.termId}" ${selected}>${escapeHtml(term.termName ?? "")}</option>`;
+                }).join("");
+
+                const locationOptions = buildLocationOptions(section.modality, section.location || "");
+                const isEditing = editingSectionId === section.sectionId;
+
+                if (isEditing) {
+                    return `
+                        <tr>
+                            <td class="readonly-cell">${section.sectionId ?? ""}</td>
+                            <td class="readonly-cell">${escapeHtml(courseLabel)}</td>
+                            <td>
+                                <input class="table-input" type="number" id="instructor-${section.sectionId}" value="${escapeAttribute(section.instructorId ?? "")}">
+                            </td>
+                            <td>
+                                <input class="table-input" type="text" id="meetingDays-${section.sectionId}" value="${escapeAttribute(section.meetingDays ?? "")}">
+                            </td>
+                            <td>
+                                <input class="table-input" type="time" id="startTime-${section.sectionId}" value="${escapeAttribute(section.startTime ? section.startTime.substring(0,5) : "")}">
+                            </td>
+                            <td>
+                                <input class="table-input" type="time" id="endTime-${section.sectionId}" value="${escapeAttribute(section.endTime ? section.endTime.substring(0,5) : "")}">
+                            </td>
+                            <td>
+                                <select class="table-select" id="modality-${section.sectionId}" onchange="updateRowLocationOptions(${section.sectionId})">
+                                    <option value="In-person" ${section.modality === "In-person" ? "selected" : ""}>In-person</option>
+                                    <option value="Online" ${section.modality === "Online" ? "selected" : ""}>Online</option>
+                                    <option value="Hybrid" ${section.modality === "Hybrid" ? "selected" : ""}>Hybrid</option>
+                                    <option value="SOM" ${section.modality === "SOM" ? "selected" : ""}>SOM</option>
+                                </select>
+                            </td>
+                            <td>
+                                <select class="table-select" id="term-${section.sectionId}">
+                                    ${termOptions}
+                                </select>
+                            </td>
+                            <td>
+                                <select class="table-select" id="location-${section.sectionId}">
+                                    ${locationOptions}
+                                </select>
+                            </td>
+                            <td>
+                                <input class="table-input" type="number" id="capacity-${section.sectionId}" value="${escapeAttribute(section.capacity ?? "")}">
+                            </td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button type="button" class="btn-small" onclick="saveSection(${section.sectionId}, ${section.course?.courseId ?? 'null'})">Save</button>
+                                    <button type="button" class="btn-danger" onclick="deleteSection(${section.sectionId})">Delete</button>
+                                    <button type="button" class="btn-secondary" onclick="cancelEdit()">Cancel</button>
+                                </div>
+                            </td>
+                        </tr>
+                    `;
+                }
+
+                return `
+                    <tr>
+                        <td class="readonly-cell">${section.sectionId ?? ""}</td>
+                        <td class="readonly-cell">${escapeHtml(courseLabel)}</td>
+                        <td>${escapeHtml(section.instructorId ?? "")}</td>
+                        <td>${escapeHtml(section.meetingDays ?? "")}</td>
+                        <td>${escapeHtml(section.startTime ? section.startTime.substring(0,5) : "")}</td>
+                        <td>${escapeHtml(section.endTime ? section.endTime.substring(0,5) : "")}</td>
+                        <td>${escapeHtml(section.modality ?? "")}</td>
+                        <td>${escapeHtml(section.term?.termName ?? "")}</td>
+                        <td>${escapeHtml(section.location ?? "")}</td>
+                        <td>${escapeHtml(section.capacity ?? "")}</td>
+                        <td>
+                            <div class="action-buttons">
+                                <button type="button" class="btn-outline" onclick="startEdit(${section.sectionId})">Edit</button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            }).join("");
+        }
+
+        function startEdit(sectionId) {
+            editingSectionId = sectionId;
+            renderSections();
+        }
+
+        function cancelEdit() {
+            editingSectionId = null;
+            renderSections();
+        }
+
+        function clearFilters() {
+            const courseFilter = document.getElementById("courseFilter");
+            if (courseFilter) {
+                courseFilter.value = "";
+            }
+            editingSectionId = null;
+            renderSections();
+        }
+
+        async function saveSection(sectionId, courseId) {
+            setStatus("tableStatus", "");
+
+            if (!courseId) {
+                setStatus("tableStatus", "Course ID missing for section update.");
+                return;
+            }
+
+            const payload = {
+                courseId: Number(courseId),
+                termId: document.getElementById(`term-${sectionId}`).value
+                    ? Number(document.getElementById(`term-${sectionId}`).value)
+                    : null,
+                instructorId: document.getElementById(`instructor-${sectionId}`).value
+                    ? Number(document.getElementById(`instructor-${sectionId}`).value)
+                    : null,
+                meetingDays: document.getElementById(`meetingDays-${sectionId}`).value || null,
+                startTime: normalizeTimeValue(document.getElementById(`startTime-${sectionId}`).value),
+                endTime: normalizeTimeValue(document.getElementById(`endTime-${sectionId}`).value),
+                modality: document.getElementById(`modality-${sectionId}`).value || null,
+                location: document.getElementById(`location-${sectionId}`).value || null,
+                capacity: document.getElementById(`capacity-${sectionId}`).value
+                    ? Number(document.getElementById(`capacity-${sectionId}`).value)
+                    : null,
+                courseRequiresPrereq: false,
+                courseCategory: ""
+            };
+
+            try {
+                const response = await fetch(`/api/sections/${sectionId}`, {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    throw new Error(errorText || "Failed to update section.");
+                }
+
+                setStatus("tableStatus", `Section ${sectionId} updated successfully.`);
+                editingSectionId = null;
+                await loadSections();
+            } catch (error) {
+                setStatus("tableStatus", error.message || "Unable to update section.");
+            }
+        }
+
+        async function deleteSection(sectionId) {
+            const confirmed = window.confirm(`Delete section ${sectionId}?`);
+            if (!confirmed) {
+                return;
+            }
+
+            setStatus("tableStatus", "");
+
+            try {
+                const response = await fetch(`/api/sections/${sectionId}`, {
+                    method: "DELETE"
+                });
+
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    throw new Error(errorText || "Failed to delete section.");
+                }
+
+                setStatus("tableStatus", `Section ${sectionId} deleted successfully.`);
+                editingSectionId = null;
+                await loadSections();
+            } catch (error) {
+                setStatus("tableStatus", error.message || "Unable to delete section.");
+            }
+        }
+
+        function escapeHtml(s) {
+            return String(s)
+                .replaceAll("&", "&amp;")
+                .replaceAll("<", "&lt;")
+                .replaceAll(">", "&gt;")
+                .replaceAll('"', "&quot;")
+                .replaceAll("'", "&#039;");
+        }
+
+        function escapeAttribute(s) {
+            return String(s)
+                .replaceAll("&", "&amp;")
+                .replaceAll('"', "&quot;")
+                .replaceAll("<", "&lt;")
+                .replaceAll(">", "&gt;");
+        }
+
+        async function initializePage() {
+            try {
+                await loadCourses();
+                await loadTerms();
+                await loadSections();
+
+                document.getElementById("courseFilter")?.addEventListener("change", function() {
+                    editingSectionId = null;
+                    renderSections();
+                });
+            } catch (error) {
+                setStatus("tableStatus", error.message || "Unable to load section management data.");
+            }
+        }
+
+        initializePage();
+    </script>
+
+</body>
+</html>

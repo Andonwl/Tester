@@ -1,0 +1,1176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BridgeTrack | Course Planner</title>
+    <link rel="stylesheet" href="bridgetrack.css">
+    <style>
+
+        .navbar {
+            background-color: #1c3557;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            padding: 10px 24px 4px 24px;
+        }
+
+        .navbar-brand {
+            color: #fff;
+            font-size: 16px;
+            font-weight: normal;
+            text-decoration: none;
+            font-family: Arial, Helvetica, sans-serif;
+            margin-bottom: 2px;
+        }
+
+        .navbar-links {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            margin: 0;
+            padding: 0;
+            gap: 0;
+        }
+
+        .navbar-links li a {
+            display: block;
+            color: #fff;
+            text-decoration: none;
+            font-size: 14px;
+            padding: 6px 14px;
+            border-radius: 3px;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .navbar-links li a:hover,
+        .navbar-links li a.active {
+            background-color: #0c6ea3;
+        }
+
+        .page-container {
+            max-width: 1150px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .page-header h2 {
+            margin: 0;
+            color: #1c3557;
+            font-size: 1.4rem;
+            font-weight: bold;
+        }
+
+        .card {
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            padding: 20px;
+            margin-bottom: 24px;
+        }
+
+        .card h3 {
+            margin-top: 0;
+            color: #1c3557;
+            font-size: 1rem;
+            font-weight: bold;
+        }
+
+        .btn {
+            background-color: #1c3557 !important;
+            color: #fff !important;
+            border: none;
+            border-radius: 6px !important;
+            padding: 10px 18px !important;
+            font-size: 14px !important;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .btn:hover {
+            background-color: #16304e !important;
+        }
+
+        .btn-secondary {
+            background-color: #6c757d;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            padding: 10px 18px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .btn-secondary:hover { background-color: #5a6268; }
+
+        .btn-outline {
+            background-color: #fff;
+            color: #1c3557;
+            border: 1.5px solid #1c3557;
+            border-radius: 6px;
+            padding: 9px 16px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .btn-outline:hover { background-color: #eef4fa; }
+
+        .btn-sm {
+            padding: 5px 11px !important;
+            font-size: 12px !important;
+            border-radius: 4px !important;
+        }
+
+        .btn-row {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .btn-disabled {
+            opacity: 0.55;
+            pointer-events: none;
+            cursor: not-allowed;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+            gap: 16px;
+            margin-bottom: 18px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            font-size: 14px;
+            margin-bottom: 6px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group select {
+            padding: 10px 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 14px;
+            background: #fff;
+            color: #333;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #1c3557;
+        }
+
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(155px, 1fr));
+            gap: 14px;
+            margin-bottom: 24px;
+        }
+
+        .stat-card {
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            padding: 16px 18px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            border-left: 4px solid #1c3557;
+        }
+
+        .stat-card.accent-green  { border-left-color: #27ae60; }
+        .stat-card.accent-orange { border-left-color: #e58a2c; }
+        .stat-card.accent-blue   { border-left-color: #0c6ea3; }
+
+        .stat-label {
+            font-size: 11px;
+            color: #666;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .stat-value {
+            font-size: 1.6rem;
+            font-weight: bold;
+            color: #1c3557;
+            line-height: 1.1;
+        }
+
+        .stat-sub { font-size: 12px; color: #888; }
+
+        .tab-row {
+            display: flex;
+            border-bottom: 2px solid #d6dce5;
+            margin-bottom: 20px;
+        }
+
+        .tab-btn {
+            padding: 9px 20px;
+            border: 1px solid transparent;
+            border-bottom: none;
+            background: #f1f3f6;
+            font-size: 14px;
+            font-weight: bold;
+            color: #555;
+            cursor: pointer;
+            border-radius: 6px 6px 0 0;
+            margin-right: 4px;
+            margin-bottom: -2px;
+            font-family: Arial, Helvetica, sans-serif;
+            transition: background 0.12s;
+        }
+
+        .tab-btn:hover { background: #eef4fa; color: #1c3557; }
+
+        .tab-btn.active {
+            background: #fff;
+            color: #1c3557;
+            border-color: #d6dce5;
+            border-bottom-color: #fff;
+        }
+
+        .tab-panel { display: none; }
+        .tab-panel.active { display: block; }
+
+        .controls-row {
+            display: flex;
+            gap: 12px;
+            align-items: flex-end;
+            flex-wrap: wrap;
+        }
+
+        .search-wrap {
+            position: relative;
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .search-wrap input {
+            width: 100%;
+            padding: 10px 12px 10px 34px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 14px;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .search-wrap input:focus { outline: none; border-color: #1c3557; }
+
+        .search-icon {
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #aaa;
+            pointer-events: none;
+        }
+
+        .catalog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+            gap: 14px;
+        }
+
+        .course-card {
+            background: #fff;
+            border: 1px solid #dde3ec;
+            border-radius: 8px;
+            padding: 14px 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            transition: border-color 0.15s, box-shadow 0.15s;
+        }
+
+        .course-card:hover {
+            border-color: #1c3557;
+            box-shadow: 0 2px 10px rgba(28,53,87,0.1);
+        }
+
+        .course-card-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 8px;
+        }
+
+        .course-code-badge {
+            font-size: 12px;
+            font-weight: bold;
+            color: #1c3557;
+            background: #dfe7f2;
+            padding: 2px 8px;
+            border-radius: 4px;
+            white-space: nowrap;
+        }
+
+        .course-title {
+            font-size: 14px;
+            font-weight: bold;
+            color: #1c3557;
+        }
+
+        .badge-row {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            font-size: 11px;
+            font-weight: bold;
+            padding: 2px 8px;
+            border-radius: 20px;
+            white-space: nowrap;
+        }
+
+        .badge-in-person { background: #d5f5e3; color: #1a7a40; }
+        .badge-online    { background: #d6eaf8; color: #1a5276; }
+        .badge-hybrid    { background: #fdebd0; color: #784212; }
+        .badge-prereq    { background: #fce4e4; color: #922b21; }
+        .badge-program   { background: #dfe7f2; color: #1c3557; }
+        .badge-planned   { background: #d5f5e3; color: #1a7a40; }
+
+        .plan-layout {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .planner-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+            border-left: 4px solid #0c6ea3;
+        }
+
+        .planner-info h3 {
+            margin-bottom: 6px;
+        }
+
+        .planner-info p {
+            margin: 0;
+            color: #555;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .semester-block {
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+        }
+
+        .semester-header {
+            background-color: #1c3557;
+            color: #fff;
+            padding: 12px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .semester-header h4 {
+            margin: 0;
+            font-size: 15px;
+            font-weight: bold;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .sem-count {
+            font-size: 12px;
+            color: #a8c4dc;
+        }
+
+        .terms-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            background: #fff;
+        }
+
+        .term-col {
+            padding: 14px 18px;
+            border-right: 1px solid #e4eaf2;
+            min-height: 110px;
+        }
+
+        .term-col:last-child { border-right: none; }
+
+        .term-col-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #dfe7f2;
+        }
+
+        .term-col-title {
+            font-size: 13px;
+            font-weight: bold;
+            color: #1c3557;
+            display: flex;
+            align-items: center;
+            gap: 7px;
+        }
+
+        .term-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            display: inline-block;
+            flex-shrink: 0;
+        }
+
+        .dot-t1 { background: #0c6ea3; }
+        .dot-t2 { background: #27ae60; }
+
+        .planned-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #f5f7fa;
+            border: 1px solid #dde3ec;
+            border-radius: 5px;
+            padding: 7px 10px;
+            margin-bottom: 6px;
+            gap: 8px;
+        }
+
+        .planned-item-info { flex: 1; }
+
+        .planned-item-code {
+            font-size: 11px;
+            font-weight: bold;
+            color: #1c3557;
+        }
+
+        .planned-item-name {
+            font-size: 12px;
+            color: #555;
+        }
+
+        .remove-btn {
+            background: none;
+            border: none;
+            color: #b22222;
+            cursor: pointer;
+            font-size: 18px;
+            line-height: 1;
+            padding: 1px 5px;
+            border-radius: 3px;
+            flex-shrink: 0;
+        }
+
+        .remove-btn:hover { background: #fce4e4; }
+
+        .empty-term {
+            font-size: 12px;
+            color: #bbb;
+            font-style: italic;
+            text-align: center;
+            padding: 14px 0 4px;
+        }
+
+        .progress-wrap { margin-bottom: 8px; }
+
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            color: #555;
+            margin-bottom: 5px;
+        }
+
+        .progress-track {
+            height: 10px;
+            background: #dfe7f2;
+            border-radius: 99px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #1c3557, #0c6ea3);
+            border-radius: 99px;
+            transition: width 0.4s ease;
+        }
+
+        .progress-fill.complete {
+            background: linear-gradient(90deg, #27ae60, #58d68d);
+        }
+
+        .req-group-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .req-group-title { font-size: 13px; font-weight: bold; color: #1c3557; }
+        .req-group-count { font-size: 12px; color: #888; }
+
+        .req-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 7px 10px;
+            border-radius: 5px;
+            background: #f5f7fa;
+            border: 1px solid #dde3ec;
+            font-size: 13px;
+            margin-bottom: 5px;
+        }
+
+        .req-row.planned {
+            background: #eafaf1;
+            border-color: #a9dfbf;
+        }
+
+        .empty-message {
+            text-align: center;
+            padding: 30px;
+            color: #888;
+            font-style: italic;
+            font-size: 14px;
+        }
+
+        .text-muted { color: #666; font-size: 13px; }
+        .status-message { margin-top: 10px; font-size: 14px; color: #444; }
+
+        .toast-container {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .toast {
+            background: #1c3557;
+            color: #fff;
+            padding: 10px 18px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-family: Arial, Helvetica, sans-serif;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.2);
+            animation: toastIn 0.2s ease;
+            max-width: 300px;
+        }
+
+        .toast.success { background: #1a7a40; }
+        .toast.error   { background: #b22222; }
+
+        @keyframes toastIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 640px) {
+            .terms-row  { grid-template-columns: 1fr; }
+            .term-col   { border-right: none; border-bottom: 1px solid #e4eaf2; }
+            .stats-row  { grid-template-columns: 1fr 1fr; }
+            .navbar     { flex-wrap: wrap; height: auto; padding: 10px 16px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="navbar">
+        <a href="/homepage.html" class="navbar-brand">BridgeTrack</a>
+        <ul class="navbar-links">
+            <li><a href="/studentdashboard.html">Dashboard</a></li>
+            <li><a href="/courseplanner.html" class="active">Course Planner</a></li>
+            <li><a href="/myenrollments.html">My Enrollments</a></li>
+            <li><a href="/bridgetrack-signin.html">Logout</a></li>
+        </ul>
+    </div>
+
+    <div class="page-container">
+
+        <div class="page-header">
+            <h2>Course Planner</h2>
+            <div class="btn-row">
+                <button class="btn-outline" onclick="clearAllPlan()">Clear Plan</button>
+                <a href="/student/course-planner/sections" id="sectionSelectionBtn" class="btn btn-disabled">Continue to Section Selection</a>
+                <a href="/studentdashboard.html" class="btn-secondary">Back to Dashboard</a>
+            </div>
+        </div>
+
+        <div class="stats-row">
+            <div class="stat-card accent-blue">
+                <span class="stat-label">Total Planned</span>
+                <span class="stat-value" id="statTotal">0</span>
+                <span class="stat-sub">courses across all terms</span>
+            </div>
+            <div class="stat-card accent-green">
+                <span class="stat-label">Semesters In Use</span>
+                <span class="stat-value" id="statSems">0</span>
+                <span class="stat-sub">of <span id="statSemTotal">4</span> planned</span>
+            </div>
+            <div class="stat-card accent-orange">
+                <span class="stat-label">Program Progress</span>
+                <span class="stat-value" id="statProgress">&#8212;</span>
+                <span class="stat-sub" id="statProgressSub">Select a program below</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-label">Selected Program</span>
+                <span class="stat-value" id="statProgram" style="font-size:0.9rem;padding-top:6px;">&#8212;</span>
+                <span class="stat-sub">degree program</span>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>Planner Setup</h3>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="programFilter">Degree Program</label>
+                    <select id="programFilter">
+                        <option value="">All Programs</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="startSemester">Starting Semester</label>
+                    <select id="startSemester">
+                        <option value="Fall 2025">Fall 2025</option>
+                        <option value="Spring 2026" selected>Spring 2026</option>
+                        <option value="Fall 2026">Fall 2026</option>
+                        <option value="Spring 2027">Spring 2027</option>
+                        <option value="Fall 2027">Fall 2027</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="semesterCount">Semesters to Plan</label>
+                    <select id="semesterCount">
+                        <option value="2">2 Semesters</option>
+                        <option value="3">3 Semesters</option>
+                        <option value="4" selected>4 Semesters</option>
+                        <option value="5">5 Semesters</option>
+                        <option value="6">6 Semesters</option>
+                    </select>
+                </div>
+            </div>
+            <button class="btn" onclick="applySetup()">Apply Settings</button>
+        </div>
+
+        <div class="tab-row">
+            <button class="tab-btn active" onclick="switchTab('planner', this)">&#128197; My Plan</button>
+            <button class="tab-btn" onclick="switchTab('catalog', this)">&#128218; Course Catalog</button>
+            <button class="tab-btn" onclick="switchTab('progress', this)">&#128202; Degree Progress</button>
+        </div>
+
+        <div id="tab-planner" class="tab-panel active">
+            <div class="card planner-info">
+                <div>
+                    <h3>How Planning Works</h3>
+                    <p>
+                        Use this page to build your course plan by semester and term. Planning courses here does
+                        <strong>not</strong> enroll you yet. After you finish planning, click
+                        <strong>Continue to Section Selection</strong> to choose available sections and complete enrollment.
+                    </p>
+                </div>
+                <div class="btn-row">
+                    <a href="/student/course-planner/sections" id="sectionSelectionBtnInline" class="btn btn-disabled">Continue to Section Selection</a>
+                </div>
+            </div>
+
+            <div id="planLayout" class="plan-layout"></div>
+        </div>
+
+        <div id="tab-catalog" class="tab-panel">
+            <div class="card" style="margin-bottom:16px;">
+                <div class="controls-row">
+                    <div class="search-wrap">
+                        <svg class="search-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                            <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                        </svg>
+                        <input type="text" id="catalogSearch" placeholder="Search by course code or name&hellip;" oninput="filterCatalog()">
+                    </div>
+                    <div class="form-group" style="min-width:170px;margin-bottom:0;">
+                        <label for="catalogProgram">Program</label>
+                        <select id="catalogProgram" onchange="filterCatalog()">
+                            <option value="">All Programs</option>
+                        </select>
+                    </div>
+                    <div class="form-group" style="min-width:150px;margin-bottom:0;">
+                        <label for="catalogModality">Modality</label>
+                        <select id="catalogModality" onchange="filterCatalog()">
+                            <option value="">Any Modality</option>
+                            <option value="In Person">In Person</option>
+                            <option value="Online">Online</option>
+                            <option value="Hybrid">Hybrid</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div id="catalogGrid" class="catalog-grid">
+                <div class="empty-message">Loading courses&hellip;</div>
+            </div>
+        </div>
+
+        <div id="tab-progress" class="tab-panel">
+            <div class="card">
+                <h3>Overall Degree Progress</h3>
+                <div class="progress-wrap">
+                    <div class="progress-label">
+                        <span>Courses planned toward degree</span>
+                        <span id="overallPct">0%</span>
+                    </div>
+                    <div class="progress-track">
+                        <div class="progress-fill" id="overallBar" style="width:0%"></div>
+                    </div>
+                </div>
+                <p class="text-muted" id="progressSummary" style="margin:10px 0 0;">
+                    Select a degree program in Planner Setup to see your requirements.
+                </p>
+            </div>
+            <div id="progressGroups"></div>
+        </div>
+
+    </div>
+
+    <div class="toast-container" id="toastContainer"></div>
+
+<script>
+
+let allCourses  = [];
+let allPrograms = [];
+let plan        = {};
+let planConfig  = { startSemester: 'Spring 2026', semesterCount: 4, programId: '' };
+let addContext  = { semKey: null, termIdx: null };
+
+const API_PROGRAMS = '/api/programs';
+const API_COURSES  = '/api/courses';
+
+async function init() {
+    await loadData();
+    populateDropdowns();
+    loadPlanFromStorage();
+    applySetup();
+}
+
+async function loadData() {
+    document.getElementById('catalogGrid').innerHTML =
+        `<div class="empty-message">Loading courses from database&hellip;</div>`;
+    document.getElementById('progressGroups').innerHTML = '';
+
+    const errors = [];
+
+    try {
+        const pRes = await fetch(API_PROGRAMS);
+        if (!pRes.ok) throw new Error(`Programs API returned ${pRes.status}`);
+        allPrograms = await pRes.json();
+    } catch (err) {
+        errors.push('programs');
+        console.error('Failed to load programs:', err);
+    }
+
+    try {
+        const cRes = await fetch(API_COURSES);
+        if (!cRes.ok) throw new Error(`Courses API returned ${cRes.status}`);
+        allCourses = await cRes.json();
+    } catch (err) {
+        errors.push('courses');
+        console.error('Failed to load courses:', err);
+    }
+
+    if (errors.length) {
+        const msg = `Failed to load ${errors.join(' and ')} from the database. Please check the server connection.`;
+        document.getElementById('catalogGrid').innerHTML =
+            `<div class="empty-message" style="color:#b22222;">${msg}</div>`;
+        showToast(msg, 'error');
+    }
+}
+
+function populateDropdowns() {
+    ['programFilter', 'catalogProgram'].forEach(id => {
+        const el = document.getElementById(id);
+        allPrograms.forEach(p => {
+            el.innerHTML += `<option value="${p.programId}">${p.programName}</option>`;
+        });
+    });
+}
+
+function switchTab(id, btn) {
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('tab-' + id).classList.add('active');
+    btn.classList.add('active');
+    if (id === 'catalog')  renderCatalog();
+    if (id === 'progress') renderProgress();
+}
+
+function generateSemesters(start, count) {
+    const sems = [];
+    let [season, year] = start.split(' ');
+    year = parseInt(year);
+    for (let i = 0; i < count; i++) {
+        sems.push({ label: `${season} ${year}`, season, year });
+        season = (season === 'Spring') ? 'Fall' : 'Spring';
+        if (season === 'Spring') year++;
+    }
+    return sems;
+}
+
+function termLabels(season) {
+    return season === 'Fall'
+        ? ['Fall Term 1',   'Fall Term 2']
+        : ['Spring Term 1', 'Spring Term 2'];
+}
+
+function applySetup() {
+    planConfig.startSemester = document.getElementById('startSemester').value;
+    planConfig.semesterCount = parseInt(document.getElementById('semesterCount').value);
+    planConfig.programId     = document.getElementById('programFilter').value;
+
+    document.getElementById('statSemTotal').textContent = planConfig.semesterCount;
+    const prog = allPrograms.find(p => String(p.programId) === String(planConfig.programId));
+    document.getElementById('statProgram').textContent = prog ? prog.programName : '—';
+
+    renderPlanLayout();
+    updateStats();
+    updateSectionSelectionButtons();
+}
+
+function renderPlanLayout() {
+    const container = document.getElementById('planLayout');
+    container.innerHTML = '';
+
+    generateSemesters(planConfig.startSemester, planConfig.semesterCount).forEach(sem => {
+        const key = sem.label;
+        if (!plan[key]) plan[key] = [[], []];
+        const [t1, t2] = termLabels(sem.season);
+        const total = countInSem(key);
+
+        const block = document.createElement('div');
+        block.className = 'semester-block';
+        block.innerHTML = `
+            <div class="semester-header">
+                <h4>${sem.label}</h4>
+                <span class="sem-count">${total} course${total !== 1 ? 's' : ''} planned</span>
+            </div>
+            <div class="terms-row">
+                ${buildTermCol(key, 0, t1, 'dot-t1')}
+                ${buildTermCol(key, 1, t2, 'dot-t2')}
+            </div>
+        `;
+        container.appendChild(block);
+    });
+}
+
+function buildTermCol(semKey, termIdx, label, dotClass) {
+    const courses = plan[semKey]?.[termIdx] || [];
+
+    const items = courses.map(id => {
+        const c = getCourse(id);
+        if (!c) return '';
+        return `
+            <div class="planned-item">
+                <div class="planned-item-info">
+                    <div class="planned-item-code">${c.courseCode}</div>
+                    <div class="planned-item-name">${c.courseName}</div>
+                </div>
+                <button class="remove-btn" onclick="removeCourse('${semKey}',${termIdx},${id})" title="Remove">&#215;</button>
+            </div>`;
+    }).join('');
+
+    const empty = courses.length === 0
+        ? `<div class="empty-term">No courses added yet</div>` : '';
+
+    return `
+        <div class="term-col">
+            <div class="term-col-header">
+                <span class="term-col-title">
+                    <span class="term-dot ${dotClass}"></span>${label}
+                </span>
+                <button class="btn btn-sm" onclick="openAddCourse('${semKey}',${termIdx})">+ Add Course</button>
+            </div>
+            ${items}${empty}
+        </div>`;
+}
+
+function openAddCourse(semKey, termIdx) {
+    addContext = { semKey, termIdx };
+    switchTab('catalog', document.querySelectorAll('.tab-btn')[1]);
+    renderCatalog();
+    showToast('Select a course to add to your plan. You will choose sections later.', 'success');
+}
+
+function addCourseToPlan(courseId) {
+    const { semKey, termIdx } = addContext;
+    if (!semKey) {
+        showToast('Click "+ Add Course" on a term first.', 'error');
+        return;
+    }
+    if (!plan[semKey]) plan[semKey] = [[], []];
+    const term = plan[semKey][termIdx];
+    if (term.includes(courseId)) {
+        showToast('This course is already in that term.', 'error');
+        return;
+    }
+    term.push(courseId);
+    savePlanToStorage();
+    renderPlanLayout();
+    updateStats();
+    updateSectionSelectionButtons();
+    const c = getCourse(courseId);
+    showToast(`${c?.courseCode ?? 'Course'} added to your plan. Choose sections on the next page.`, 'success');
+    switchTab('planner', document.querySelectorAll('.tab-btn')[0]);
+}
+
+function removeCourse(semKey, termIdx, courseId) {
+    if (!plan[semKey]) return;
+    plan[semKey][termIdx] = plan[semKey][termIdx].filter(
+        id => id !== courseId && id !== parseInt(courseId)
+    );
+    savePlanToStorage();
+    renderPlanLayout();
+    updateStats();
+    updateSectionSelectionButtons();
+    const c = getCourse(courseId);
+    showToast(`${c?.courseCode ?? 'Course'} removed.`);
+}
+
+function getCourse(id) {
+    return allCourses.find(c => c.courseId === id || c.courseId === parseInt(id));
+}
+
+function countInSem(semKey) {
+    if (!plan[semKey]) return 0;
+    return (plan[semKey][0]?.length || 0) + (plan[semKey][1]?.length || 0);
+}
+
+function getAllPlannedIds() {
+    const ids = new Set();
+    Object.values(plan).forEach(sem => sem.forEach(term => term.forEach(id => ids.add(id))));
+    return ids;
+}
+
+function getTotalPlannedCount() {
+    return getAllPlannedIds().size;
+}
+
+function updateSectionSelectionButtons() {
+    const totalPlanned = getTotalPlannedCount();
+    const ids = ['sectionSelectionBtn', 'sectionSelectionBtnInline'];
+
+    ids.forEach(id => {
+        const btn = document.getElementById(id);
+        if (!btn) return;
+
+        if (totalPlanned > 0) {
+            btn.classList.remove('btn-disabled');
+            btn.setAttribute('title', 'Go choose sections for your planned courses');
+        } else {
+            btn.classList.add('btn-disabled');
+            btn.setAttribute('title', 'Add courses to your plan first');
+        }
+    });
+}
+
+function renderCatalog() {
+    const grid     = document.getElementById('catalogGrid');
+    const search   = document.getElementById('catalogSearch').value.toLowerCase();
+    const progId   = document.getElementById('catalogProgram').value;
+    const modality = document.getElementById('catalogModality').value;
+    const planned  = getAllPlannedIds();
+
+    const filtered = allCourses.filter(c => {
+        const matchSearch = !search   || c.courseCode.toLowerCase().includes(search) || c.courseName.toLowerCase().includes(search);
+        const matchProg   = !progId   || String(c.program?.programId) === String(progId);
+        const matchMod    = !modality || c.modality === modality;
+        return matchSearch && matchProg && matchMod;
+    });
+
+    if (!filtered.length) {
+        grid.innerHTML = `<div class="empty-message">No courses match your filters.</div>`;
+        return;
+    }
+
+    const { semKey, termIdx } = addContext;
+    const btnLabel = semKey
+        ? `Add to ${semKey} &mdash; ${termLabels(semKey.split(' ')[0])[termIdx]}`
+        : 'Add to Plan';
+
+    const modalityBadge = { 'In Person': 'badge-in-person', 'Online': 'badge-online', 'Hybrid': 'badge-hybrid' };
+
+    grid.innerHTML = filtered.map(c => {
+        const isPlanned = planned.has(c.courseId);
+        return `
+        <div class="course-card">
+            <div class="course-card-top">
+                <span class="course-code-badge">${c.courseCode}</span>
+                ${c.requiresPrereq ? `<span class="badge badge-prereq">Prereq Required</span>` : ''}
+            </div>
+            <div class="course-title">${c.courseName}</div>
+            <div class="badge-row">
+                ${c.modality ? `<span class="badge ${modalityBadge[c.modality] || ''}">${c.modality}</span>` : ''}
+                ${c.program?.programName ? `<span class="badge badge-program">${c.program.programName}</span>` : ''}
+            </div>
+            <div style="margin-top:4px;">
+                ${isPlanned
+                    ? `<span class="badge badge-planned">&#10003; Already Planned</span>`
+                    : `<button class="btn btn-sm" onclick="addCourseToPlan(${c.courseId})">${btnLabel}</button>`
+                }
+            </div>
+        </div>`;
+    }).join('');
+}
+
+function filterCatalog() { renderCatalog(); }
+
+function renderProgress() {
+    const container = document.getElementById('progressGroups');
+    const planned   = getAllPlannedIds();
+    const progId    = planConfig.programId;
+
+    if (!progId) {
+        container.innerHTML = `<div class="card"><div class="empty-message">Select a degree program in Planner Setup to view requirements.</div></div>`;
+        document.getElementById('progressSummary').textContent = 'Select a degree program in Planner Setup to see your requirements.';
+        document.getElementById('overallPct').textContent = '0%';
+        document.getElementById('overallBar').style.width = '0%';
+        return;
+    }
+
+    const prog           = allPrograms.find(p => String(p.programId) === String(progId));
+    const programCourses = allCourses.filter(c => String(c.program?.programId) === String(progId));
+    const plannedCount   = programCourses.filter(c => planned.has(c.courseId)).length;
+    const total          = programCourses.length;
+    const pct            = total ? Math.round((plannedCount / total) * 100) : 0;
+
+    document.getElementById('overallPct').textContent = pct + '%';
+    const bar = document.getElementById('overallBar');
+    bar.style.width = pct + '%';
+    bar.className = 'progress-fill' + (pct === 100 ? ' complete' : '');
+    document.getElementById('progressSummary').textContent =
+        `${plannedCount} of ${total} courses planned for ${prog?.programName || 'your program'}.`;
+
+    const groups = [
+        { label: 'Core Courses', courses: programCourses.filter(c => !c.requiresPrereq) },
+        { label: 'Courses with Prerequisites', courses: programCourses.filter(c => c.requiresPrereq) },
+    ].filter(g => g.courses.length > 0);
+
+    container.innerHTML = groups.map(g => {
+        const gPlanned = g.courses.filter(c => planned.has(c.courseId)).length;
+        const gPct     = g.courses.length ? Math.round((gPlanned / g.courses.length) * 100) : 0;
+
+        const rows = g.courses.map(c => {
+            const ip = planned.has(c.courseId);
+            return `
+                <div class="req-row ${ip ? 'planned' : ''}">
+                    <span><strong>${c.courseCode}</strong> &mdash; ${c.courseName}</span>
+                    <span style="font-size:15px;">${ip ? '&#10003;' : '&#9633;'}</span>
+                </div>`;
+        }).join('');
+
+        return `
+            <div class="card" style="margin-bottom:16px;">
+                <div class="req-group-header">
+                    <span class="req-group-title">${g.label}</span>
+                    <span class="req-group-count">${gPlanned} / ${g.courses.length} planned</span>
+                </div>
+                <div class="progress-wrap">
+                    <div class="progress-track">
+                        <div class="progress-fill ${gPct === 100 ? 'complete' : ''}" style="width:${gPct}%"></div>
+                    </div>
+                </div>
+                <div style="margin-top:10px;">${rows}</div>
+            </div>`;
+    }).join('');
+}
+
+function updateStats() {
+    const planned = getAllPlannedIds();
+    const sems    = generateSemesters(planConfig.startSemester, planConfig.semesterCount);
+
+    document.getElementById('statTotal').textContent = planned.size;
+    document.getElementById('statSems').textContent  = sems.filter(s => countInSem(s.label) > 0).length;
+
+    const progId = planConfig.programId;
+    if (progId) {
+        const programCourses = allCourses.filter(c => String(c.program?.programId) === String(progId));
+        const plannedProg    = programCourses.filter(c => planned.has(c.courseId)).length;
+        const pct = programCourses.length ? Math.round((plannedProg / programCourses.length) * 100) : 0;
+        document.getElementById('statProgress').textContent    = pct + '%';
+        document.getElementById('statProgressSub').textContent = `${plannedProg} of ${programCourses.length} courses planned`;
+    } else {
+        document.getElementById('statProgress').textContent    = '—';
+        document.getElementById('statProgressSub').textContent = 'Select a program below';
+    }
+}
+
+function savePlanToStorage() {
+    try { sessionStorage.setItem('bt_plan', JSON.stringify(plan)); } catch {}
+}
+
+function loadPlanFromStorage() {
+    try {
+        const s = sessionStorage.getItem('bt_plan');
+        if (s) plan = JSON.parse(s);
+    } catch {}
+}
+
+function clearAllPlan() {
+    if (!confirm('Are you sure you want to clear your entire plan? This cannot be undone.')) return;
+    plan = {};
+    savePlanToStorage();
+    renderPlanLayout();
+    updateStats();
+    updateSectionSelectionButtons();
+    showToast('Plan cleared.');
+}
+
+function showToast(msg, type = '') {
+    const tc = document.getElementById('toastContainer');
+    const t  = document.createElement('div');
+    t.className   = 'toast ' + type;
+    t.textContent = msg;
+    tc.appendChild(t);
+    setTimeout(() => {
+        t.style.transition = 'opacity 0.3s';
+        t.style.opacity    = '0';
+        setTimeout(() => t.remove(), 300);
+    }, 3000);
+}
+
+init();
+</script>
+
+</body>
+</html>

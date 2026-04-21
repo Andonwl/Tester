@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>BridgeTrack Admin Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/bridgetrack.css">
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f1f3f6;
+            color: #333;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .admin-sidebar {
+            width: 280px;
+            background: #ffffff;
+            border-right: 1px solid #d6dce5;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .admin-sidebar-top { display: flex; flex-direction: column; }
+
+        .admin-logo {
+            padding: 16px 20px;
+            border-bottom: 1px solid #e6ebf1;
+            margin-bottom: 8px;
+        }
+
+        .admin-logo img { width: 200px; height: auto; display: block; }
+
+        .admin-sidebar h2 {
+            padding: 0 24px 12px;
+            margin: 0;
+            font-size: 18px;
+            color: #1c3557;
+        }
+
+        .admin-sidebar ul { list-style: none; margin: 0; padding: 0; }
+        .admin-sidebar li { margin: 0; padding: 0; }
+
+        .admin-sidebar a {
+            display: block;
+            padding: 12px 24px;
+            color: #2d3d65;
+            text-decoration: none;
+            font-size: 15px;
+            border-left: 4px solid transparent;
+        }
+
+        .admin-sidebar a:hover,
+        .admin-sidebar a.active {
+            background: #eef4fa;
+            color: #1c3557;
+            font-weight: bold;
+            border-left: 4px solid #1a5ea8;
+        }
+
+        .admin-sidebar-bottom {
+            padding: 18px 24px;
+            border-top: 1px solid #e6ebf1;
+        }
+
+        .admin-sidebar-bottom a {
+            padding: 0;
+            border-left: none;
+            font-weight: bold;
+        }
+
+        .admin-sidebar-bottom a:hover {
+            background: transparent;
+            color: #1a5ea8;
+        }
+
+        .admin-main { flex: 1; padding: 28px 24px; background: #f1f3f6; }
+
+        .admin-topbar { margin-bottom: 24px; }
+
+        .admin-topbar h1 {
+            margin: 0 0 6px;
+            font-size: 28px;
+            color: #1c3557;
+        }
+
+        .admin-topbar p { margin: 0; color: #666; font-size: 14px; }
+
+        .dashboard-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 18px;
+            margin-bottom: 24px;
+        }
+
+        .stat-box {
+            background: white;
+            border: 1px solid #d6dce5;
+            border-radius: 6px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .stat-box .stat-number {
+            font-size: 28px;
+            font-weight: bold;
+            color: #1c3557;
+            margin-bottom: 6px;
+        }
+
+        .stat-box .stat-label { font-size: 14px; color: #666; }
+
+        .admin-section {
+            background: white;
+            border: 1px solid #d6dce5;
+            border-radius: 6px;
+            margin-bottom: 24px;
+            overflow: hidden;
+        }
+
+        .admin-section-header {
+            background: #dfe7f2;
+            color: #1c3557;
+            font-weight: bold;
+            padding: 14px 18px;
+            border-bottom: 1px solid #d6dce5;
+        }
+
+        .admin-section-body { padding: 20px 18px; }
+
+        .quick-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+        .quick-actions form { margin: 0; }
+
+        .quick-actions button {
+            background: #1c3557;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 10px 16px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .quick-actions button:hover { background: #0c6ea3; }
+
+        .activity-list { margin: 0; padding-left: 18px; color: #333; }
+        .activity-list li { margin-bottom: 10px; }
+
+        @media (max-width: 900px) {
+            body { flex-direction: column; }
+            .admin-sidebar { width: 100%; }
+            .admin-main { padding: 20px 16px; }
+        }
+    </style>
+</head>
+<body>
+
+<aside class="admin-sidebar">
+    <div class="admin-sidebar-top">
+        <div class="admin-logo">
+            <img src="/bridgetrack-logo.jpeg" alt="BridgeTrack Logo">
+        </div>
+
+        <h2>Admin Dashboard</h2>
+
+        <ul>
+            <li><a class="active" href="/admindashboard">Dashboard</a></li>
+			<li><a href="/TermManagement.html">Terms</a></li>
+			<li><a href="/coursemanagement.html">Courses</a></li>
+			<li><a href="/programManagement.html">Programs</a></li>
+			<li><a href="/sectionmanagement.html">Sections</a></li>
+			<li><a href="/students.html">Students</a></li>
+            <li><a href="/admin/instructors">Instructors</a></li>
+			<li><a href="/admin/attendance-reports">Attendance Reports</a></li>
+        </ul>
+    </div>
+
+    <div class="admin-sidebar-bottom">
+        <a href="/logout">Logout</a>
+    </div>
+</aside>
+
+<main class="admin-main">
+    <div class="admin-topbar">
+        <h1>Dashboard Overview</h1>
+        <p>Manage programs, sections, instructors, students, and reporting tools.</p>
+    </div>
+
+    <div class="dashboard-stats">
+        <div class="stat-box">
+            <div class="stat-number" th:text="${activeCount}"></div>
+            <div class="stat-label">Active Students</div>
+        </div>
+
+        <div class="stat-box">
+            <div class="stat-number" th:text="${classCount}">0</div>
+            <div class="stat-label">Sections Running</div>
+        </div>
+
+        <div class="stat-box">
+            <div class="stat-number">87%</div>
+            <div class="stat-label">Attendance Rate</div>
+        </div>
+    </div>
+
+    <section class="admin-section">
+        <div class="admin-section-header">Quick Actions</div>
+        <div class="admin-section-body">
+            <div class="quick-actions">
+                <button type="button">Generate Report</button>
+                <button type="button">Import Students</button>
+            </div>
+        </div>
+    </section>
+
+    <section class="admin-section">
+        <div class="admin-section-header">Recent Activity</div>
+        <div class="admin-section-body">
+            <ul class="activity-list">
+                <li>Student John Smith registered for Term 1 College Prep</li>
+                <li>Instructor Jane Doe added attendance for ESL Level 2</li>
+                <li>New section "ESL Level 3 - Online" created</li>
+            </ul>
+        </div>
+    </section>
+</main>
+
+</body>
+</html>

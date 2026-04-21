@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BridgeTrack | Course Planner</title>
+    <link rel="stylesheet" th:href="@{/bridgetrack.css}" href="/bridgetrack.css">
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f1f3f6;
+            color: #333;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .student-sidebar {
+            width: 280px;
+            background: #ffffff;
+            border-right: 1px solid #d6dce5;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .student-sidebar-top {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .student-logo {
+            padding: 16px 20px;
+            border-bottom: 1px solid #e6ebf1;
+            margin-bottom: 8px;
+        }
+
+        .student-logo img {
+            width: 200px;
+            height: auto;
+            display: block;
+        }
+
+        .student-sidebar h2 {
+            padding: 0 24px 12px;
+            margin: 0;
+            font-size: 18px;
+            color: #1c3557;
+        }
+
+        .student-sidebar ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .student-sidebar a {
+            display: block;
+            padding: 12px 24px;
+            color: #2d3d65;
+            text-decoration: none;
+            border-left: 4px solid transparent;
+            font-size: 15px;
+        }
+
+        .student-sidebar a:hover,
+        .student-sidebar a.active {
+            background: #eef4fa;
+            color: #1c3557;
+            font-weight: bold;
+            border-left: 4px solid #1a5ea8;
+        }
+
+        .student-sidebar-bottom {
+            padding: 18px 24px;
+            border-top: 1px solid #e6ebf1;
+        }
+
+        .student-sidebar-bottom a {
+            padding: 0;
+            border-left: none;
+            font-weight: bold;
+        }
+
+        .student-sidebar-bottom a:hover {
+            background: transparent;
+            color: #1a5ea8;
+        }
+
+        .student-main {
+            flex: 1;
+            padding: 28px 24px;
+            background: #f1f3f6;
+        }
+
+        .student-topbar {
+            margin-bottom: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .student-topbar h1 {
+            margin: 0 0 6px;
+            font-size: 28px;
+            color: #1c3557;
+        }
+
+        .student-topbar p {
+            margin: 0;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .student-section {
+            background: white;
+            border: 1px solid #d6dce5;
+            border-radius: 6px;
+            overflow: hidden;
+            margin-bottom: 18px;
+        }
+
+        .student-section-header {
+            background: #dfe7f2;
+            color: #1c3557;
+            font-weight: bold;
+            padding: 14px 18px;
+            border-bottom: 1px solid #d6dce5;
+        }
+
+        .student-section-body {
+            padding: 20px 18px;
+        }
+
+        .page-container {
+            max-width: 1150px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .card {
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            padding: 20px;
+            margin-bottom: 24px;
+        }
+
+        .card h3 {
+            margin-top: 0;
+            color: #17395c;
+            font-size: 1rem;
+            font-weight: bold;
+        }
+
+        .btn,
+        .btn-secondary,
+        .btn-outline,
+        .tab-btn,
+        .tab-link-btn {
+            min-width: 132px;
+            height: 42px;
+            padding: 0 16px;
+            font-size: 14px;
+            font-weight: bold;
+            font-family: Arial, Helvetica, sans-serif;
+            border-radius: 6px;
+            box-sizing: border-box;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            white-space: nowrap;
+            cursor: pointer;
+        }
+
+        .btn {
+            background-color: #17395c !important;
+            color: #fff !important;
+            border: none;
+        }
+
+        .btn:hover {
+            background-color: #132f4c !important;
+        }
+
+        .btn:disabled {
+            background-color: #b7c1cc !important;
+            color: #eef2f6 !important;
+            cursor: not-allowed;
+        }
+
+        .btn-secondary {
+            background-color: #8a9198;
+            color: #fff;
+            border: none;
+        }
+
+        .btn-secondary:hover {
+            background-color: #757c83;
+        }
+
+        .btn-outline {
+            background-color: #fff;
+            color: #17395c;
+            border: 1.5px solid #17395c;
+        }
+
+        .btn-outline:hover {
+            background-color: #eef4fa;
+        }
+
+        .btn-sm {
+            min-width: 110px;
+            height: 34px;
+            padding: 0 12px !important;
+            font-size: 12px !important;
+            border-radius: 4px !important;
+        }
+
+        .btn-row {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(155px, 1fr));
+            gap: 14px;
+            margin-bottom: 14px;
+        }
+
+        .stat-card {
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            padding: 16px 18px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            border-left: 4px solid #17395c;
+        }
+
+        .stat-card.accent-green  { border-left-color: #27ae60; }
+        .stat-card.accent-orange { border-left-color: #e58a2c; }
+        .stat-card.accent-blue   { border-left-color: #0c6ea3; }
+
+        .stat-label {
+            font-size: 11px;
+            color: #666;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .stat-value {
+            font-size: 1.6rem;
+            font-weight: bold;
+            color: #17395c;
+            line-height: 1.1;
+        }
+
+        .stat-sub {
+            font-size: 12px;
+            color: #888;
+        }
+
+        .planner-setup-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 14px;
+            margin-top: 10px;
+        }
+
+        .planner-actions {
+            margin-top: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            font-size: 13px;
+            font-weight: bold;
+            margin-bottom: 6px;
+            color: #333;
+        }
+
+        .form-group select {
+            height: 42px;
+            padding: 0 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 14px;
+            background: #fff;
+            color: #333;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .tab-row {
+            display: flex;
+            border-bottom: 2px solid #d6dce5;
+            margin-bottom: 18px;
+            flex-wrap: wrap;
+            gap: 4px;
+        }
+
+        .tab-btn {
+            border: 1px solid transparent;
+            border-bottom: none;
+            background: #f1f3f6;
+            color: #555;
+            margin-bottom: -2px;
+        }
+
+        .tab-btn.active {
+            background: #fff;
+            color: #17395c;
+            border-color: #d6dce5;
+            border-bottom-color: #fff;
+        }
+
+        .tab-link-btn {
+            border: 1px solid transparent;
+            border-bottom: none;
+            background: #f1f3f6;
+            color: #555;
+            margin-bottom: -2px;
+        }
+
+        .tab-link-btn:hover {
+            background: #fff;
+            color: #17395c;
+            border-color: #d6dce5;
+            border-bottom-color: #fff;
+        }
+
+        .tab-panel { display: none; }
+        .tab-panel.active { display: block; }
+
+        .info-card {
+            border-left: 4px solid #0c6ea3;
+        }
+
+        .info-card p {
+            margin: 8px 0 0;
+            color: #555;
+            line-height: 1.5;
+            font-size: 14px;
+        }
+
+        .badge {
+            font-size: 11px;
+            font-weight: bold;
+            padding: 2px 8px;
+            border-radius: 20px;
+            white-space: nowrap;
+        }
+
+        .badge-in-person { background: #d5f5e3; color: #1a7a40; }
+        .badge-online    { background: #d6eaf8; color: #1a5276; }
+        .badge-hybrid    { background: #fdebd0; color: #784212; }
+        .badge-prereq    { background: #fce4e4; color: #922b21; }
+        .badge-program   { background: #dfe7f2; color: #17395c; }
+        .badge-enrolled  { background: #e8f8f5; color: #117864; }
+        .badge-in-plan   { background: #eef4fa; color: #17395c; }
+        .badge-term      { background: #eef4fa; color: #17395c; }
+
+        .catalog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+            gap: 14px;
+            margin-top: 16px;
+        }
+
+        .course-card {
+            background: #fff;
+            border: 1px solid #dde3ec;
+            border-radius: 8px;
+            padding: 14px 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .course-card-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 8px;
+        }
+
+        .course-code-badge {
+            font-size: 12px;
+            font-weight: bold;
+            color: #17395c;
+            background: #dfe7f2;
+            padding: 2px 8px;
+            border-radius: 4px;
+            white-space: nowrap;
+        }
+
+        .course-title {
+            font-size: 14px;
+            font-weight: bold;
+            color: #17395c;
+        }
+
+        .badge-row {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .catalog-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 10px;
+        }
+
+        .catalog-header h3 {
+            margin: 0;
+            color: #17395c;
+        }
+
+        .empty-message {
+            font-size: 12px;
+            color: #888;
+            font-style: italic;
+            text-align: center;
+            padding: 14px 0 4px;
+        }
+
+        .flash-success {
+            background: #eafaf1;
+            color: #1a7a40;
+            border: 1px solid #a9dfbf;
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-bottom: 18px;
+        }
+
+        .flash-error {
+            background: #fce4e4;
+            color: #922b21;
+            border: 1px solid #f5b7b1;
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-bottom: 18px;
+        }
+
+        .text-muted {
+            color: #666;
+            font-size: 13px;
+        }
+
+        @media (max-width: 980px) {
+            body { flex-direction: column; }
+            .student-sidebar { width: 100%; }
+        }
+
+        @media (max-width: 640px) {
+            .stats-row { grid-template-columns: 1fr 1fr; }
+            .btn,
+            .btn-secondary,
+            .btn-outline,
+            .tab-btn,
+            .tab-link-btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<aside class="student-sidebar">
+    <div class="student-sidebar-top">
+        <div class="student-logo">
+            <img th:src="@{/bridgetrack-logo.jpeg}" src="/bridgetrack-logo.jpeg" alt="BridgeTrack Logo">
+        </div>
+
+        <h2>Student Dashboard</h2>
+
+        <ul>
+            <li><a class="active" th:href="@{/student/course-planner}" href="/student/course-planner">Course Planner</a></li>
+            <li><a th:href="@{/student/schedule}" href="/student/schedule">My Schedule</a></li>
+            <li><a th:href="@{/student/catalog}" href="/student/catalog">Course Catalog</a></li>
+            <li><a th:href="@{/student/profile}" href="/student/profile">Profile</a></li>
+        </ul>
+    </div>
+
+    <div class="student-sidebar-bottom">
+        <a th:href="@{/login}" href="/login">Logout</a>
+    </div>
+</aside>
+
+<main class="student-main">
+    <div class="student-topbar">
+        <div>
+            <h1>Course Planner</h1>
+            <p>Plan your semesters and add courses before selecting sections.</p>
+        </div>
+    </div>
+
+    <div class="page-container">
+        <div th:if="${successMessage}" class="flash-success" th:text="${successMessage}"></div>
+        <div th:if="${errorMessage}" class="flash-error" th:text="${errorMessage}"></div>
+
+        <div class="stats-row">
+            <div class="stat-card accent-blue">
+                <span class="stat-label">Total Planned</span>
+                <span class="stat-value" th:text="${#lists.size(plannedCourses)}">0</span>
+                <span class="stat-sub">courses currently in your plan</span>
+            </div>
+            <div class="stat-card accent-green">
+                <span class="stat-label">Scheduled</span>
+                <span class="stat-value" th:text="${#lists.size(scheduledCourses)}">0</span>
+                <span class="stat-sub">courses already enrolled</span>
+            </div>
+            <div class="stat-card accent-orange">
+                <span class="stat-label">Programs</span>
+                <span class="stat-value" th:text="${#lists.size(programs)}">0</span>
+                <span class="stat-sub">available degree programs</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-label">Course Catalog</span>
+                <span class="stat-value" th:text="${#lists.size(courses)}">0</span>
+                <span class="stat-sub">available courses</span>
+            </div>
+        </div>
+
+        <section class="student-section">
+            <div class="student-section-header">Filter Courses</div>
+            <div class="student-section-body">
+                <form th:action="@{/student/course-planner}" method="get">
+                    <input type="hidden" name="activeTab" value="planner">
+
+                    <div class="planner-setup-grid">
+                        <div class="form-group">
+                            <label for="programId">Program</label>
+                            <select id="programId" name="programId">
+                                <option value="">All Programs</option>
+                                <option th:each="program : ${programs}"
+                                        th:value="${program.programId}"
+                                        th:text="${program.programName}"
+                                        th:selected="${selectedProgramId != null and selectedProgramId == program.programId}">
+                                    Program
+                                </option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="modality">Modality</label>
+                            <select id="modality" name="modality">
+                                <option value="ALL" th:selected="${selectedModality == null or selectedModality == 'ALL'}">All Modalities</option>
+                                <option value="Online" th:selected="${selectedModality == 'Online'}">Online</option>
+                                <option value="In Person" th:selected="${selectedModality == 'In Person'}">In Person</option>
+                                <option value="Hybrid" th:selected="${selectedModality == 'Hybrid'}">Hybrid</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="planStatus">Plan Status</label>
+                            <select id="planStatus" name="planStatus">
+                                <option value="ALL" th:selected="${selectedPlanStatus == null or selectedPlanStatus == 'ALL'}">All Statuses</option>
+                                <option value="NOT_ADDED" th:selected="${selectedPlanStatus == 'NOT_ADDED'}">Not Added</option>
+                                <option value="PLANNED" th:selected="${selectedPlanStatus == 'PLANNED'}">In Plan</option>
+                                <option value="ENROLLED" th:selected="${selectedPlanStatus == 'ENROLLED'}">Enrolled</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="prereqStatus">Prerequisites</label>
+                            <select id="prereqStatus" name="prereqStatus">
+                                <option value="ALL" th:selected="${selectedPrereqStatus == null or selectedPrereqStatus == 'ALL'}">All</option>
+                                <option value="MET" th:selected="${selectedPrereqStatus == 'MET'}">Met</option>
+                                <option value="MISSING" th:selected="${selectedPrereqStatus == 'MISSING'}">Missing</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="planner-actions">
+                        <div class="btn-row">
+                            <button type="submit" class="btn">Apply Filters</button>
+                            <a th:href="@{/student/course-planner}" href="/student/course-planner" class="btn-secondary">Clear</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <div class="tab-row">
+            <button id="plannerTabButton" class="tab-btn" type="button" onclick="switchTab('planner', this)">📅 My Planner</button>
+            <a id="selectSectionsTabButton" class="tab-link-btn" th:href="@{/student/course-planner/sections}" href="/student/course-planner/sections">✅ Select Sections</a>
+        </div>
+
+        <div id="tab-planner" class="tab-panel">
+            <div class="card info-card">
+                <h3>How Planning Works</h3>
+                <p>
+                    Build your plan from the available courses below. Each course card shows prerequisites, term availability, and whether the course is already in your plan or already enrolled.
+                </p>
+            </div>
+
+            <div class="card" id="availableCoursesSection">
+                <div class="catalog-header">
+                    <h3>Available Courses</h3>
+                    <span class="text-muted">Courses, prerequisites, availability, and plan status all in one place.</span>
+                </div>
+
+                <div class="catalog-grid">
+                    <div class="course-card" th:each="course : ${courses}">
+                        <div class="course-card-top">
+                            <span class="course-code-badge" th:text="${course.courseCode}">CPT 101</span>
+                            <span th:if="${course.requiresPrereq}" class="badge badge-prereq">Prereq Required</span>
+                        </div>
+
+                        <div class="course-title" th:text="${course.courseName}">Course Name</div>
+
+                        <div class="badge-row">
+                            <span th:if="${course.modality == 'In Person'}" class="badge badge-in-person">In Person</span>
+                            <span th:if="${course.modality == 'Online'}" class="badge badge-online">Online</span>
+                            <span th:if="${course.modality == 'Hybrid'}" class="badge badge-hybrid">Hybrid</span>
+                            <span class="badge badge-program" th:text="${course.program != null ? course.program.programName : 'No Program'}">Program</span>
+                            <span class="badge badge-term"
+                                  th:text="${courseAvailability != null and courseAvailability[course.courseId] != null ? courseAvailability[course.courseId] : 'No sections available yet'}">
+                                No sections available yet
+                            </span>
+
+                            <span th:if="${#lists.size(scheduledCourses.?[course != null and course.courseId == __${course.courseId}__]) > 0}"
+                                  class="badge badge-enrolled">✓ Enrolled</span>
+
+                            <span th:if="${#lists.size(scheduledCourses.?[course != null and course.courseId == __${course.courseId}__]) == 0 and #lists.size(plannedCourses.?[course != null and course.courseId == __${course.courseId}__]) > 0}"
+                                  class="badge badge-in-plan">In Plan</span>
+                        </div>
+
+                        <div th:if="${missingPrereqs[course.courseId] != null and !missingPrereqs[course.courseId].isEmpty()}"
+                             style="margin-top: 4px; font-size: 12px; color: #922b21;">
+                            Missing prerequisite(s):
+                            <span th:text="${#strings.listJoin(missingPrereqs[course.courseId], ', ')}"></span>
+                        </div>
+
+                        <div th:if="${missingPrereqs[course.courseId] == null or #lists.isEmpty(missingPrereqs[course.courseId])}"
+                             style="margin-top: 4px; font-size: 12px; color: #117864;">
+                            Prerequisites satisfied
+                        </div>
+
+                        <div style="margin-top:4px;">
+                            <form th:action="@{/student/course-planner/add}" method="post" class="catalog-add-form">
+                                <input type="hidden" name="courseId" th:value="${course.courseId}">
+                                <input type="hidden" name="semesterLabel" th:value="${selectedStartingSemester != null ? selectedStartingSemester : 'Spring 2026'}">
+                                <input type="hidden" name="termNumber" value="1">
+                                <input type="hidden" name="startingSemester" th:value="${selectedStartingSemester != null ? selectedStartingSemester : 'Spring 2026'}">
+                                <input type="hidden" name="semesterCount" th:value="${selectedSemesterCount != null ? selectedSemesterCount : 4}">
+                                <input type="hidden" name="activeTab" value="planner">
+                                <input type="hidden" name="programId" th:if="${selectedProgramId != null}" th:value="${selectedProgramId}">
+                                <input type="hidden" name="modality" th:value="${selectedModality != null ? selectedModality : 'ALL'}">
+                                <input type="hidden" name="planStatus" th:value="${selectedPlanStatus != null ? selectedPlanStatus : 'ALL'}">
+                                <input type="hidden" name="prereqStatus" th:value="${selectedPrereqStatus != null ? selectedPrereqStatus : 'ALL'}">
+                                <button type="submit"
+                                        class="btn btn-sm"
+                                        th:disabled="${(missingPrereqs[course.courseId] != null and !missingPrereqs[course.courseId].isEmpty()) or #lists.size(scheduledCourses.?[course != null and course.courseId == __${course.courseId}__]) > 0}">
+                                    Add to Plan
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div th:if="${#lists.isEmpty(courses)}" class="empty-message">
+                    No courses available.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function switchTab(id, btn) {
+            document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById('tab-' + id).classList.add('active');
+            if (btn) {
+                btn.classList.add('active');
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', function () {
+            switchTab('planner', document.getElementById('plannerTabButton'));
+        });
+    </script>
+</main>
+
+</body>
+</html>

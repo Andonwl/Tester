@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BridgeTrack — Sign In</title>
+  <link rel="stylesheet" href="bridgetrack.css" />
+  <style>
+    .signin-wrap {
+      max-width: 420px;
+      margin: 48px auto;
+      padding: 0 16px 48px;
+    }
+
+    .signin-card {
+      background: #fff;
+      border: 1px solid #d0d9e4;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .signin-card .card-header {
+      background: #e8f1fb;
+      border-bottom: 1px solid #d0d9e4;
+      padding: 18px 24px;
+      text-align: center;
+    }
+
+    .signin-card .card-header h2 {
+      font-size: 18px;
+      color: #1a3a5c;
+    }
+
+    .signin-card .card-header p {
+      font-size: 13px;
+      color: #666;
+      margin-top: 4px;
+    }
+
+    .signin-card .card-body {
+      padding: 28px 24px;
+    }
+
+    .signin-card .field {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      margin-bottom: 16px;
+    }
+
+    .forgot-link {
+      text-align: right;
+      font-size: 12px;
+      margin-top: -8px;
+      margin-bottom: 16px;
+    }
+
+    .forgot-link a {
+      color: #1a5ea8;
+      text-decoration: none;
+    }
+
+    .btn-signin {
+      width: 100%;
+      background: #1a5ea8;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      padding: 12px;
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .btn-signin:hover { background: #154d8e; }
+    .btn-signin:disabled { opacity: 0.55; cursor: not-allowed; }
+
+    .signin-footer {
+      text-align: center;
+      font-size: 13px;
+      color: #666;
+      margin-top: 20px;
+    }
+
+    .signin-footer a {
+      color: #1a5ea8;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    .alert {
+      border-radius: 6px;
+      padding: 12px 16px;
+      font-size: 13px;
+      margin-bottom: 16px;
+      display: none;
+    }
+
+    .alert.visible { display: block; }
+
+    .alert-error {
+      background: #fff0ef;
+      border: 1px solid #f5bbb8;
+      border-left: 4px solid #c0392b;
+      color: #8a1a12;
+    }
+
+    .alert-success {
+      background: #edfbf3;
+      border: 1px solid #b2e8ca;
+      border-left: 4px solid #1a7a4a;
+      color: #14532d;
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar">
+    <a href="#" class="navbar-brand">Bridge<span>Track</span></a>
+    <ul class="navbar-links">
+      <li><a href="#">Sign In</a></li>
+      <li><a href="bridgetrack.html">Create Account</a></li>
+      <li><a href="#">Apply Online</a></li>
+      <li><a href="#">Programs</a></li>
+    </ul>
+  </nav>
+
+  <div class="page-header">
+    <h1>Sign In to BridgeTrack</h1>
+    <p>Access your application, deadlines, and enrollment information.</p>
+  </div>
+
+  <div class="signin-wrap">
+    <div class="signin-card">
+      <div class="card-header">
+        <h2>Welcome Back</h2>
+        <p>Enter your email and password to continue.</p>
+      </div>
+      <div class="card-body">
+
+        <div class="alert alert-error" id="alertError">
+          Incorrect email or password. Please try again.
+        </div>
+
+        <div class="alert alert-success" id="alertSuccess">
+          Signing you in&hellip;
+        </div>
+
+        <form id="signinForm" novalidate>
+
+          <div class="field">
+            <label for="email">Email Address <span class="required-star">*</span></label>
+            <input type="email" id="email" name="email" autocomplete="email" placeholder="jane@email.com" />
+            <span class="field-error" id="err-email">Please enter a valid email address.</span>
+          </div>
+
+          <div class="field">
+            <label for="password">Password <span class="required-star">*</span></label>
+            <input type="password" id="password" name="password" autocomplete="current-password" placeholder="••••••••" />
+            <span class="field-error" id="err-password">Password is required.</span>
+          </div>
+
+          <div class="forgot-link">
+            <a href="#">Forgot your password?</a>
+          </div>
+
+          <button type="submit" class="btn-signin" id="submitBtn">Sign In</button>
+
+        </form>
+
+      </div>
+    </div>
+
+    <div class="signin-footer">
+      Don't have an account? <a href="bridgetrack.html">Create one here</a>.
+    </div>
+  </div>
+
+ 
+  <footer class="site-footer">
+    <a href="#">Privacy Policy</a>
+    <a href="#">Terms of Service</a>
+    <a href="#">Contact</a>
+    <div style="margin-top:8px">© 2025 BridgeTrack. All rights reserved.</div>
+  </footer>
+
+  <script>
+    const emailEl    = document.getElementById('email');
+    const passwordEl = document.getElementById('password');
+    const errEmail   = document.getElementById('err-email');
+    const errPw      = document.getElementById('err-password');
+
+    function validateEmail(v) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); }
+
+    emailEl.addEventListener('blur', () => {
+      const ok = validateEmail(emailEl.value);
+      emailEl.classList.toggle('error', !ok);
+      errEmail.classList.toggle('visible', !ok);
+    });
+
+    passwordEl.addEventListener('blur', () => {
+      const ok = passwordEl.value.trim() !== '';
+      passwordEl.classList.toggle('error', !ok);
+      errPw.classList.toggle('visible', !ok);
+    });
+
+    document.getElementById('signinForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      const emailOk = validateEmail(emailEl.value);
+      const pwOk    = passwordEl.value.trim() !== '';
+
+      emailEl.classList.toggle('error', !emailOk);
+      errEmail.classList.toggle('visible', !emailOk);
+      passwordEl.classList.toggle('error', !pwOk);
+      errPw.classList.toggle('visible', !pwOk);
+
+      if (!emailOk || !pwOk) return;
+
+      document.getElementById('alertError').classList.remove('visible');
+
+      const btn = document.getElementById('submitBtn');
+      btn.disabled = true;
+      btn.textContent = 'Signing in…';
+
+      setTimeout(() => {
+        btn.disabled = false;
+        btn.textContent = 'Sign In';
+        document.getElementById('alertError').classList.add('visible');
+      }, 1000);
+    });
+  </script>
+
+</body>
+</html>

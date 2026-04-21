@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Registration</title>
+  <link rel="stylesheet" href="/bridgetrack.css" />
+
+  <style>
+    body { margin: 0; font-family: Arial, Helvetica, sans-serif; background: #f1f3f6; color:#333; }
+    .wrap { max-width: 1150px; margin: 24px auto; padding: 0 16px; }
+    .card { background:#fff; border:1px solid #d6dce5; border-radius: 8px; overflow:hidden; margin-bottom: 16px; }
+    .card-h { background:#dfe7f2; color:#1c3557; font-weight:700; padding: 12px 16px; border-bottom:1px solid #d6dce5; }
+    .card-b { padding: 16px; }
+
+    .alert { padding: 12px 14px; border-radius: 6px; margin-bottom: 14px; border:1px solid; font-size: 14px; font-weight:700; }
+    .alert-success { background:#edf7ed; border-color:#b7dfb9; color:#256029; }
+    .alert-error { background:#fdeeee; border-color:#f5c2c0; color:#a12622; }
+
+    .filters { display:grid; grid-template-columns: repeat(4, minmax(170px, 1fr)); gap: 10px; }
+    .f { background:#fff; border:1px solid #d6dce5; border-radius:6px; padding:10px; }
+    .f label { display:block; font-size:12px; font-weight:700; color:#1c3557; margin-bottom:6px; }
+    .f input, .f select { width:100%; height:42px; padding:0 10px; border:1px solid #cfd8e3; border-radius:4px; box-sizing:border-box; }
+
+    .actions { display:flex; gap:10px; flex-wrap:wrap; margin-top: 10px; }
+    .btn, .btn-secondary {
+      min-width:124px; height:42px; padding:0 16px; font-size:13px; font-weight:700;
+      border:none; border-radius:4px; cursor:pointer; text-decoration:none;
+      display:inline-flex; align-items:center; justify-content:center; box-sizing:border-box;
+    }
+    .btn { background:#1c3557; color:#fff; }
+    .btn:hover { background:#144978; }
+    .btn-secondary { background:#7a8088; color:#fff; }
+    .btn-secondary:hover { background:#676d74; }
+    .btn:disabled { opacity:.6; cursor:not-allowed; }
+
+    .student-summary { display:grid; grid-template-columns: 1fr auto; gap: 10px; align-items:center; }
+    .pill { display:inline-block; background:#eef4fa; color:#1c3557; padding: 6px 10px; border-radius: 999px; font-weight:700; font-size:12px; }
+
+    table { width:100%; border-collapse:collapse; }
+    th, td { padding: 10px 12px; border-bottom: 1px solid #e7ebf0; text-align:left; vertical-align:top; }
+    th { background:#f5f7fa; color:#1c3557; font-weight:700; font-size:12px; text-transform:uppercase; letter-spacing:.04em; }
+    tr:nth-child(even) td { background:#fafbfd; }
+    tr:hover td { background:#eef4fa; }
+
+    .empty { text-align:center; color:#7a8794; font-style:italic; padding: 22px 16px; background:#fff; border:1px solid #d6dce5; border-radius: 6px; }
+    @media (max-width: 950px) { .filters { grid-template-columns: 1fr; } .btn, .btn-secondary { width:100%; } }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+
+    <div th:if="${successMessage != null}" class="alert alert-success" th:text="${successMessage}">Success</div>
+    <div th:if="${errorMessage != null}" class="alert alert-error" th:text="${errorMessage}">Error</div>
+
+    <section class="card">
+      <div class="card-h">Registration Filters</div>
+      <div class="card-b">
+        <form th:action="@{/admin/registration}" method="get">
+          <div class="filters">
+            <div class="f">
+              <label for="studentId">Student ID</label>
+              <input id="studentId" type="number" name="studentId" th:value="${selectedStudentId}" placeholder="Enter student ID">
+            </div>
+
+            <div class="f">
+              <label for="termId">Term</label>
+              <select id="termId" name="termId">
+                <option value="" th:selected="${selectedTermId == null}">All Terms</option>
+                <option th:each="t : ${terms}"
+                        th:value="${t.termId}"
+                        th:selected="${selectedTermId != null and selectedTermId == t.termId}"
+                        th:text="${t.termName}">
+                  Term
+                </option>
+              </select>
+            </div>
+
+            <div class="f">
+              <label for="modality">Modality</label>
+              <select id="modality" name="modality">
+                <option value="ALL" th:selected="${selectedModality == 'ALL'}">All</option>
+                <option value="Online" th:selected="${selectedModality == 'Online'}">Online</option>
+                <option value="In Person" th:selected="${selectedModality == 'In Person'}">In Person</option>
+                <option value="Hybrid" th:selected="${selectedModality == 'Hybrid'}">Hybrid</option>
+              </select>
+            </div>
+
+            <div class="f">
+              <label for="query">Search</label>
+              <input id="query" type="text" name="query" th:value="${query}" placeholder="Course code/title...">
+            </div>
+          </div>
+
+          <div class="actions">
+            <button class="btn" type="submit">Apply</button>
+            <a class="btn-secondary" th:href="@{/admin/registration}">Clear</a>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <section class="card" th:if="${selectedStudent != null}">
+      <div class="card-h">Selected Student</div>
+      <div class="card-b">
+        <div class="student-summary">
+          <div>
+            <div style="font-size:18px; font-weight:700; color:#1c3557;"
+                 th:text="${selectedStudent.firstName + ' ' + selectedStudent.lastName}">
+              Student Name
+            </div>
+            <div style="color:#666;" th:text="${selectedStudent.studentEmail}">student@email.com</div>
+          </div>
+          <div>
+            <span class="pill" th:text="'ID: ' + ${selectedStudent.studentId}">ID</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="card-h">Available Sections</div>
+      <div class="card-b">
+
+        <div th:if="${selectedStudentId == null}" class="empty">
+          Enter a Student ID and click Apply to see available sections.
+        </div>
+
+        <div th:if="${selectedStudentId != null and (sections == null or #lists.isEmpty(sections))}" class="empty">
+          No available sections match the current filters for this student.
+        </div>
+
+        <div th:if="${sections != null and !#lists.isEmpty(sections)}">
+          <table>
+            <thead>
+              <tr>
+                <th>Course</th>
+                <th>Term</th>
+                <th>Days</th>
+                <th>Time</th>
+                <th>Modality</th>
+                <th>Location</th>
+                <th style="width:170px;">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr th:each="sec : ${sections}">
+                <td>
+                  <div style="font-weight:700;" th:text="${sec.course.courseCode}">CPT-100</div>
+                  <div style="color:#666;" th:text="${sec.course.courseName}">Course Title</div>
+                  <div style="color:#777; font-size:12px;" th:text="'Section #' + ${sec.sectionId}">Section</div>
+                </td>
+
+                <td th:text="${sec.term != null ? sec.term.termName : 'Term'}">Term</td>
+                <td th:text="${sec.meetingDays != null ? sec.meetingDays : 'TBA'}">MW</td>
+                <td th:text="|${sec.startTime != null ? sec.startTime : 'TBA'} - ${sec.endTime != null ? sec.endTime : 'TBA'}|">9:00-10:00</td>
+                <td th:text="${sec.modality != null ? sec.modality : 'TBA'}">Online</td>
+                <td th:text="${sec.location != null ? sec.location : 'TBA'}">Room</td>
+
+                <td>
+                  <form th:action="@{/admin/registration/select}" method="post" style="margin:0;">
+                    <input type="hidden" th:if="${_csrf != null}" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                    <input type="hidden" name="studentId" th:value="${selectedStudentId}" />
+                    <input type="hidden" name="sectionId" th:value="${sec.sectionId}" />
+                    <button class="btn" type="submit" th:disabled="${selectedStudentId == null}">Select Section</button>
+                  </form>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    </section>
+
+  </div>
+</body>
+</html>
